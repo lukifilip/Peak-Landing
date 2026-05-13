@@ -1012,12 +1012,18 @@
       width: 100%; height: 58px; padding: 0 22px;
       font-size: 16px; border-radius: 16px;
     }
-    .hero-meta { gap: 14px; margin-top: 18px; font-size: 12px; }
+    /* Hero meta — stack vertically so all 3 bullets line up cleanly */
+    .hero-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 18px;
+      font-size: 13px;
+    }
     .pill { font-size: 12px; padding: 5px 11px 5px 7px; }
 
-    /* hero phone — smaller so CTAs fit above the fold */
-    .phone-stage { margin-top: 0; }
-    .phone-stage .phone-img { max-width: 320px; width: 100% !important; margin: 0 auto; }
+    /* Hide the hero illustration entirely on mobile — it crowds the CTAs */
+    .phone-stage { display: none; }
 
     /* proof grid — stack as condensed pills */
     .proof-grid { padding: 18px 18px; gap: 16px; border-radius: 22px; }
@@ -1075,19 +1081,16 @@
   body[data-os="android"] .os-android { display: inline-flex; }
   body[data-os="desktop"] .os-desktop, body[data-os="other"] .os-desktop { display: inline-flex; }
 
-  /* On mobile, show only the store button matching the device OS in the hero */
+  /* On mobile: both store buttons visible, stacked full-width */
   @media (max-width: 760px) {
-    body[data-os="ios"] .hero-cta [data-store="android"] { display: none; }
-    body[data-os="android"] .hero-cta [data-store="ios"] { display: none; }
-    body[data-os="ios"] .hero-cta [data-store="ios"],
-    body[data-os="android"] .hero-cta [data-store="android"] {
-      width: 100%; height: 60px; justify-content: center;
-      background: var(--blue); color: #fff; border-radius: 16px;
-      box-shadow: 0 10px 24px -8px rgba(0,122,255,0.55);
+    .hero-cta {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
     }
-    body[data-os="ios"] .hero-cta [data-store="ios"]:hover,
-    body[data-os="android"] .hero-cta [data-store="android"]:hover {
-      background: #0066d6;
+    .hero-cta .btn-store {
+      width: 100%; height: 60px; justify-content: center;
+      border-radius: 16px;
     }
   }
 
@@ -1134,8 +1137,7 @@ window.PEAK_TWEAKS = /*EDITMODE-BEGIN*/{
 <section class="hero">
   <div class="container hero-grid">
     <div>
-      <span class="pill">Now in beta
-· iOS &amp; Android</span>
+      <span class="pill"><span class="dot"></span>Now in beta<em>· iOS &amp; Android</em></span>
       <h1 class="headline" data-headline>
         Learn real skills.<br />
         Build the <span class="accent">proof.</span>
