@@ -1,0 +1,1601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Peak — Prove your skills. Get hired for them.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F5F7;
+    --card: #FFFFFF;
+    --ink: #0A0A0B;
+    --ink-2: #1D1D1F;
+    --muted: #8E8E93;
+    --hairline: #E5E5EA;
+    --hairline-2: #EFEFF1;
+    --blue: #007AFF;
+    --blue-soft: #47A0FF;
+    --blue-tint: #E8F1FF;
+    --green: #34C759;
+    --orange: #FF9500;
+    --shadow-sm: 0 1px 2px rgba(16,18,25,0.04), 0 0 0 1px rgba(16,18,25,0.04);
+    --shadow-md: 0 12px 30px -12px rgba(16,18,25,0.10), 0 2px 6px rgba(16,18,25,0.04);
+    --shadow-lg: 0 30px 60px -20px rgba(16,18,25,0.18), 0 8px 20px -8px rgba(16,18,25,0.08);
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 25px;
+    --radius-xl: 32px;
+  }
+  [data-theme="dark"] {
+    --bg: #0B0B0D;
+    --card: #161618;
+    --ink: #F5F5F7;
+    --ink-2: #E5E5EA;
+    --muted: #8E8E93;
+    --hairline: #26262A;
+    --hairline-2: #1E1E22;
+    --blue-tint: rgba(10,132,255,0.14);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+    --shadow-md: 0 12px 30px -12px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.3);
+    --shadow-lg: 0 30px 60px -20px rgba(0,0,0,0.7), 0 8px 20px -8px rgba(0,0,0,0.4);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-feature-settings: "cv11","ss01","ss03";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--blue); color: #fff; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  @media (max-width: 640px) { .container { padding: 0 20px; } }
+
+  /* ── NAV ─────────────────────────────────────────── */
+  nav.top {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    backdrop-filter: saturate(180%) blur(18px);
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+    border-bottom: 1px solid color-mix(in srgb, var(--hairline) 60%, transparent);
+  }
+  nav.top .container {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.01em; }
+  .brand .mark {
+    width: 28px; height: 28px; display: grid; place-items: center;
+    color: var(--ink);
+  }
+  .brand .mark .peak-mark {
+    width: 100%; height: 100%;
+    background: currentColor;
+    -webkit-mask: url('assets/peak_logo.png') center / contain no-repeat;
+            mask: url('assets/peak_logo.png') center / contain no-repeat;
+  }
+  .brand .name { font-size: 18px; }
+  .nav-links { display: flex; gap: 28px; align-items: center; font-size: 14px; color: var(--ink-2); font-weight: 500; }
+  .nav-links a { opacity: 0.78; transition: opacity .15s; }
+  .nav-links a:hover { opacity: 1; }
+  @media (max-width: 760px) { .nav-links { display: none; } }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; height: 42px; padding: 0 18px;
+    border-radius: 999px; font-weight: 600; font-size: 14px;
+    border: 0; cursor: pointer;
+    transition: transform .12s ease, box-shadow .15s ease, background .15s ease;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px) scale(0.99); }
+  .btn-primary {
+    background: var(--blue); color: white;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset, 0 6px 14px -4px rgba(0,122,255,0.45);
+  }
+  .btn-primary:hover { background: #0066d6; }
+  .btn-secondary {
+    background: var(--card); color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-secondary:hover { background: color-mix(in srgb, var(--card) 80%, var(--ink) 4%); }
+  .btn-lg { height: 52px; padding: 0 26px; font-size: 15px; }
+  .btn-store {
+    height: 56px; padding: 0 22px;
+    background: var(--ink); color: var(--bg);
+    border-radius: 14px; font-weight: 600; font-size: 14px;
+    display: inline-flex; align-items: center; gap: 12px;
+    box-shadow: 0 8px 22px -8px rgba(16,18,25,0.4);
+  }
+  .btn-store:hover { background: #2a2a2e; }
+  [data-theme="dark"] .btn-store { background: var(--card); color: var(--ink); }
+  .btn-store .lbl-small { font-size: 11px; opacity: 0.7; line-height: 1; display: block; font-weight: 500; }
+  .btn-store .lbl-big { font-size: 17px; line-height: 1.1; display: block; font-weight: 700; letter-spacing: -0.01em; }
+
+  /* ── HERO ────────────────────────────────────────── */
+  section.hero { padding: 56px 0 90px; position: relative; overflow: hidden; }
+  @media (max-width: 760px) { section.hero { padding: 28px 0 64px; } }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 60px; align-items: center;
+  }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px 6px 8px;
+    background: var(--card);
+    border-radius: 999px;
+    font-size: 13px; font-weight: 500; color: var(--ink-2);
+    box-shadow: var(--shadow-sm);
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 18%, transparent); }
+  .pill em { font-style: normal; color: var(--muted); font-weight: 400; margin-left: 2px; }
+
+  h1.headline {
+    font-size: clamp(38px, 5.4vw, 60px);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    font-weight: 700;
+    margin: 22px 0 0;
+    color: var(--ink);
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+  h1.headline .accent {
+    background: linear-gradient(180deg, #0A84FF 0%, #006EE6 100%);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    font-style: italic;
+    font-weight: 700;
+  }
+  .sub {
+    margin-top: 22px; font-size: 18px; line-height: 1.55;
+    color: var(--ink-2); opacity: 0.78;
+    max-width: 540px; text-wrap: pretty;
+  }
+  .hero-cta {
+    margin-top: 30px;
+    display: flex; gap: 12px; flex-wrap: wrap;
+  }
+  .hero-meta {
+    margin-top: 22px; display: flex; gap: 22px; flex-wrap: wrap;
+    font-size: 13px; color: var(--muted);
+  }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .hero-meta svg { width: 14px; height: 14px; }
+
+  /* Waitlist form */
+  .waitlist {
+    margin-top: 30px; display: flex; gap: 8px;
+    background: var(--card); padding: 7px 7px 7px 18px;
+    border-radius: 999px; box-shadow: var(--shadow-sm);
+    max-width: 460px;
+  }
+  .waitlist input {
+    flex: 1; min-width: 0; border: 0; background: transparent;
+    font-family: inherit; font-size: 15px; color: var(--ink);
+    outline: 0;
+  }
+  .waitlist input::placeholder { color: var(--muted); }
+  .waitlist .btn { height: 42px; }
+
+  /* ── PHONE MOCKUP / HERO IMAGE ─────────────────────── */
+  .phone-stage {
+    position: relative;
+    display: grid; place-items: center;
+    align-self: start;
+    margin-top: -40px;
+  }
+  @media (max-width: 900px) { .phone-stage { height: auto; margin-top: 0; } }
+  .phone-stage::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(50% 50% at 50% 50%, color-mix(in srgb, var(--blue) 10%, transparent) 0%, transparent 70%);
+    z-index: 0;
+  }
+  .phone-stage .phone-img {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 660px; height: auto;
+    transform: none;
+    filter: drop-shadow(0 30px 60px rgba(16,18,25,0.12));
+  }
+  [data-theme="dark"] .phone-stage .phone-img {
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.5));
+  }
+  .phone {
+    position: relative;
+    width: 320px; height: 650px;
+    background: #0A0A0B; border-radius: 50px;
+    padding: 11px;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.06) inset,
+      0 0 0 2px #18181B,
+      var(--shadow-lg);
+    z-index: 1;
+  }
+  .phone-stage .phone { transform: rotate(-2deg); }
+  .phone .screen {
+    position: relative; width: 100%; height: 100%;
+    background: #F5F5F7; color: #0A0A0B;
+    border-radius: 40px; overflow: hidden;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+  .phone .notch {
+    position: absolute; top: 11px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 30px; background: #0A0A0B;
+    border-radius: 999px; z-index: 5;
+  }
+  .phone .status {
+    position: absolute; top: 0; left: 0; right: 0; height: 50px; z-index: 4;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px 0;
+    color: #0A0A0B; font-size: 13px; font-weight: 600;
+  }
+  .phone .status .right { display: inline-flex; gap: 6px; align-items: center; }
+
+  /* ── HERO PHONE: Home screen ─────────────────────── */
+  .home-screen { display: flex; flex-direction: column; height: 100%; }
+  .home-banner {
+    height: 290px; padding-top: 50px; position: relative;
+    background:
+      linear-gradient(180deg, transparent 60%, #F5F5F7 100%),
+      linear-gradient(135deg, #1c4d7e 0%, #2e6fb0 50%, #4a92d8 100%);
+    overflow: hidden;
+  }
+  .home-banner::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.18), transparent 40%),
+      radial-gradient(circle at 80% 60%, rgba(255,255,255,0.10), transparent 40%);
+  }
+  .home-banner .badge {
+    position: absolute; top: 60px; left: 16px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 10px; background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(10px);
+    border-radius: 999px; color: #fff;
+    font-size: 11px; font-weight: 600;
+  }
+  .home-banner .skill-icon {
+    position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+    width: 58px; height: 58px; border-radius: 16px;
+    background: #fff; display: grid; place-items: center;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  }
+  .home-banner .skill-name {
+    position: absolute; bottom: 36px; left: 0; right: 0; text-align: center;
+    color: #fff; font-size: 17px; font-weight: 700;
+    text-shadow: 0 1px 12px rgba(0,0,0,0.4);
+  }
+  .home-banner .skill-sub {
+    position: absolute; bottom: 18px; left: 0; right: 0; text-align: center;
+    color: rgba(255,255,255,0.85); font-size: 11px; font-weight: 500;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+  }
+  .home-cta-row {
+    margin-top: -56px; padding: 0 16px; position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .home-continue {
+    width: 178px; height: 38px; background: #47A0FF; color: #fff;
+    border-radius: 999px; display: grid; place-items: center;
+    font-size: 12px; font-weight: 600;
+    box-shadow: 0 8px 18px -6px rgba(0,122,255,0.45);
+  }
+  .home-progress { width: 84px; height: 6px; background: #fff; border-radius: 3px; overflow: hidden; }
+  .home-progress span { display: block; height: 100%; width: 35%; background: #47A0FF; border-radius: 3px; }
+  .home-section-title {
+    padding: 18px 22px 8px; font-size: 14px; font-weight: 700; color: #0A0A0B;
+  }
+  .home-skill-list { padding: 0 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .skill-card {
+    background: #fff; border-radius: 18px; padding: 10px 14px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 1px 2px rgba(16,18,25,0.04);
+  }
+  .skill-card .ico {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: grid; place-items: center; flex-shrink: 0;
+    font-size: 16px; font-weight: 700; color: #fff;
+  }
+  .skill-card .meta { flex: 1; min-width: 0; }
+  .skill-card .meta .t { font-size: 12px; font-weight: 600; color: #0A0A0B; line-height: 1.2; }
+  .skill-card .meta .s { font-size: 10px; color: #8E8E93; line-height: 1.3; margin-top: 1px; }
+  .skill-card .add {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #F5F5F7; display: grid; place-items: center;
+    font-size: 14px; color: #0A0A0B; font-weight: 400;
+  }
+  .skill-card.added .add { background: #007AFF; color: #fff; }
+  .home-tabbar {
+    margin-top: auto;
+    height: 64px; padding: 8px 0 16px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid #E5E5EA;
+    display: flex; justify-content: space-around; align-items: center;
+  }
+  .home-tabbar .ti { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .home-tabbar .ti svg { width: 22px; height: 22px; color: #8E8E93; }
+  .home-tabbar .ti.active svg { color: #0A0A0B; }
+  .home-tabbar .ti span { font-size: 9px; font-weight: 500; color: #8E8E93; }
+  .home-tabbar .ti.active span { color: #0A0A0B; }
+
+  /* ── TICKER / Social proof ───────────────────────── */
+  section.proof {
+    padding: 0 0 28px;
+  }
+  .proof-grid {
+    display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 28px; align-items: center;
+    padding: 22px 28px;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+  @media (max-width: 760px) { .proof-grid { grid-template-columns: 1fr; gap: 18px; } }
+  .proof-stat .num { font-size: 32px; font-weight: 700; letter-spacing: -0.025em; line-height: 1; }
+  .proof-stat .lbl { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .proof-quote {
+    border-left: 2px solid var(--blue);
+    padding-left: 16px;
+    font-size: 14px; line-height: 1.55; color: var(--ink-2);
+  }
+  .proof-quote .cite { display: block; margin-top: 6px; font-size: 12px; color: var(--muted); font-weight: 500; }
+  .proof-trust { display: flex; flex-direction: column; gap: 6px; }
+  .proof-trust .row { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); }
+  .proof-trust .row svg { width: 14px; height: 14px; color: var(--green); }
+
+  /* ── HOW IT WORKS ────────────────────────────────── */
+  section { padding: 90px 0; }
+  @media (max-width: 760px) { section { padding: 64px 0; } }
+  .eyebrow {
+    display: inline-block;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--blue);
+  }
+  h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.05; letter-spacing: -0.03em;
+    font-weight: 700; margin: 14px 0 0;
+    text-wrap: balance;
+  }
+  .lead {
+    margin-top: 16px; font-size: 17px; line-height: 1.55;
+    color: var(--ink-2); opacity: 0.75; max-width: 560px;
+    text-wrap: pretty;
+  }
+  .center { text-align: center; }
+  .center .lead { margin-left: auto; margin-right: auto; }
+
+  .hiw-grid {
+    margin-top: 48px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  }
+  @media (max-width: 860px) { .hiw-grid { grid-template-columns: 1fr; } }
+  .hiw-card {
+    background: var(--card); border-radius: var(--radius-lg);
+    padding: 30px; position: relative; overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column;
+    gap: 22px;
+  }
+  .hiw-card .step {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--blue-tint); color: var(--blue);
+    display: grid; place-items: center;
+    font-size: 13px; font-weight: 700;
+  }
+  .hiw-card h3 {
+    font-size: 22px; letter-spacing: -0.02em; margin: 0; font-weight: 700;
+  }
+  .hiw-card p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.55; }
+  .hiw-illus {
+    margin-top: 8px;
+    display: flex; align-items: flex-end;
+  }
+  .hiw-img {
+    width: 100%; height: auto; display: block;
+    border-radius: 16px;
+  }
+
+  /* ── HIW illustrations — mirror the actual app UI ─────────────── */
+  /* shared "device surface": light gray bg like the Peak app screens */
+  .hiw-illus { display: block; }
+  .app-surface {
+    background: #F5F5F7; border-radius: 16px; padding: 14px;
+    width: 100%;
+    box-shadow: inset 0 0 0 1px rgba(16,18,25,0.04);
+  }
+  [data-theme="dark"] .app-surface {
+    background: #0E0E10;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+  }
+  .app-card {
+    background: #fff; border-radius: 14px;
+    box-shadow: 0 1px 2px rgba(16,18,25,0.04);
+  }
+  [data-theme="dark"] .app-card { background: #161618; box-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .app-card.tight { padding: 10px 12px; }
+
+  /* ── Card 1: LEARN — skill_progress / skill_levels ─────────────── */
+  .sp-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 12px 10px;
+  }
+  .sp-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: linear-gradient(135deg, #FFE0B2, #FF9500);
+    display: grid; place-items: center; flex-shrink: 0;
+    box-shadow: 0 4px 10px -4px rgba(255,149,0,0.5);
+  }
+  .sp-icon svg { width: 20px; height: 20px; color: #fff; }
+  .sp-head .meta { flex: 1; min-width: 0; }
+  .sp-head .nm { font-size: 12px; font-weight: 700; color: #0A0A0B; line-height: 1.2; }
+  [data-theme="dark"] .sp-head .nm { color: #F5F5F7; }
+  .sp-head .pct {
+    font-size: 10px; color: #8E8E93; margin-top: 2px; font-weight: 500;
+  }
+  .sp-bar {
+    height: 6px; background: #EFEFF1; border-radius: 999px; overflow: hidden;
+    margin: 0 12px 12px;
+  }
+  [data-theme="dark"] .sp-bar { background: #26262A; }
+  .sp-bar span {
+    display: block; height: 100%; width: 60%;
+    background: linear-gradient(90deg, #007AFF, #47A0FF);
+    border-radius: 999px;
+  }
+  .sp-levels {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
+    padding: 0 8px 12px;
+  }
+  .sp-lvl {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    text-align: center;
+  }
+  .sp-lvl .b {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #fff; box-shadow: 0 1px 2px rgba(16,18,25,0.06);
+    color: #C7C7CC; font-size: 13px; font-weight: 700;
+  }
+  [data-theme="dark"] .sp-lvl .b { background: #1F1F22; color: #6B6B70; }
+  .sp-lvl.done .b {
+    background: linear-gradient(135deg, #34C759, #248a3d);
+    color: #fff; box-shadow: 0 4px 8px -3px rgba(52,199,89,0.5);
+  }
+  .sp-lvl.cur .b {
+    background: linear-gradient(135deg, #007AFF, #0066D6);
+    color: #fff; box-shadow: 0 0 0 3px color-mix(in srgb, #007AFF 22%, transparent);
+  }
+  .sp-lvl.locked .b svg { width: 11px; height: 11px; color: currentColor; }
+  .sp-lvl .ln {
+    font-size: 8px; font-weight: 600; color: #8E8E93;
+    letter-spacing: 0.02em;
+  }
+  .sp-lvl.done .ln, .sp-lvl.cur .ln { color: #0A0A0B; }
+  [data-theme="dark"] .sp-lvl.done .ln, [data-theme="dark"] .sp-lvl.cur .ln { color: #F5F5F7; }
+  .sp-streak {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 8px; padding: 9px 12px;
+    font-size: 11px; color: #0A0A0B;
+  }
+  [data-theme="dark"] .sp-streak { color: #F5F5F7; }
+  .sp-streak .flame {
+    width: 18px; height: 18px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: color-mix(in srgb, #FF9500 16%, transparent);
+  }
+  .sp-streak .flame svg { width: 11px; height: 11px; color: #FF9500; }
+  .sp-streak .lbl { flex: 1; font-weight: 500; }
+  .sp-streak .v { color: #8E8E93; font-weight: 600; font-size: 10px; }
+
+  /* ── Card 2: BUILD — components / tasks / projects ─────────────── */
+  .ph-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 11px 12px 8px;
+  }
+  .ph-head .ti { font-size: 11px; font-weight: 700; color: #0A0A0B; }
+  [data-theme="dark"] .ph-head .ti { color: #F5F5F7; }
+  .ph-head .pill {
+    font-size: 9px; font-weight: 600; padding: 3px 8px;
+    background: color-mix(in srgb, #007AFF 12%, transparent);
+    color: #007AFF; border-radius: 999px;
+    box-shadow: none;
+  }
+  .ph-list { display: flex; flex-direction: column; gap: 6px; padding: 0 8px 10px; }
+  .ph-row {
+    display: flex; align-items: center; gap: 10px;
+    background: #fff; border-radius: 12px; padding: 10px 12px;
+    box-shadow: 0 1px 2px rgba(16,18,25,0.04);
+  }
+  [data-theme="dark"] .ph-row { background: #1F1F22; box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+  .ph-row .icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .ph-row .icon svg { width: 14px; height: 14px; }
+  .ph-row.comps .icon { background: color-mix(in srgb, #007AFF 14%, transparent); color: #007AFF; }
+  .ph-row.tasks .icon { background: color-mix(in srgb, #FF9500 16%, transparent); color: #FF9500; }
+  .ph-row.proj .icon { background: color-mix(in srgb, #34C759 16%, transparent); color: #248a3d; }
+  [data-theme="dark"] .ph-row.proj .icon { color: #34C759; }
+  .ph-row .body { flex: 1; min-width: 0; }
+  .ph-row .ph-nm { font-size: 11px; font-weight: 600; color: #0A0A0B; line-height: 1.2; }
+  [data-theme="dark"] .ph-row .ph-nm { color: #F5F5F7; }
+  .ph-row .ph-meta {
+    font-size: 9px; color: #8E8E93; margin-top: 3px; font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ph-row .ph-meta .mini-bar {
+    flex: 1; max-width: 70px; height: 3px; background: #EFEFF1;
+    border-radius: 999px; overflow: hidden;
+  }
+  [data-theme="dark"] .ph-row .ph-meta .mini-bar { background: #26262A; }
+  .ph-row .ph-meta .mini-bar span {
+    display: block; height: 100%; background: #007AFF; border-radius: 999px;
+  }
+  .ph-row .status {
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+    display: grid; place-items: center;
+  }
+  .ph-row.done .status {
+    background: #34C759; color: #fff;
+  }
+  .ph-row.done .status svg { width: 12px; height: 12px; }
+  .ph-row.active .status {
+    border: 2px solid #007AFF; background: transparent;
+  }
+  .ph-row.active .status::after {
+    content: ""; width: 8px; height: 8px; border-radius: 50%;
+    background: #007AFF;
+  }
+  .ph-row.locked { opacity: 0.55; }
+  .ph-row.locked .status {
+    background: #EFEFF1; color: #8E8E93;
+  }
+  [data-theme="dark"] .ph-row.locked .status { background: #26262A; }
+  .ph-row.locked .status svg { width: 10px; height: 10px; }
+
+  /* ── Card 3: GET DISCOVERED — my_profile / portfolio ──────────── */
+  .pf-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 12px 10px;
+  }
+  .pf-avatar {
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #FF9500, #FF2D55);
+    display: grid; place-items: center;
+    color: #fff; font-size: 14px; font-weight: 700;
+    box-shadow: 0 4px 10px -4px rgba(255,45,85,0.4);
+  }
+  .pf-head .who { flex: 1; min-width: 0; }
+  .pf-head .un { font-size: 12px; font-weight: 700; color: #0A0A0B; line-height: 1.2; }
+  [data-theme="dark"] .pf-head .un { color: #F5F5F7; }
+  .pf-head .pts {
+    font-size: 10px; color: #8E8E93; margin-top: 2px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .pf-head .pts svg { width: 9px; height: 9px; color: #007AFF; }
+  .pf-head .verified {
+    flex-shrink: 0; display: inline-flex; align-items: center; gap: 3px;
+    padding: 3px 7px; border-radius: 999px;
+    background: color-mix(in srgb, #34C759 14%, transparent);
+    color: #248a3d; font-size: 9px; font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  [data-theme="dark"] .pf-head .verified { color: #34C759; }
+  .pf-head .verified svg { width: 9px; height: 9px; }
+
+  .pf-list { display: flex; flex-direction: column; gap: 6px; padding: 0 8px 10px; }
+  .pf-skill {
+    display: flex; align-items: center; gap: 10px;
+    background: #fff; border-radius: 12px; padding: 9px 12px;
+    box-shadow: 0 1px 2px rgba(16,18,25,0.04);
+  }
+  [data-theme="dark"] .pf-skill { background: #1F1F22; box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+  .pf-skill .ico {
+    width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+    display: grid; place-items: center; color: #fff;
+    font-size: 11px; font-weight: 700;
+  }
+  .pf-skill.py .ico { background: linear-gradient(135deg, #3776AB, #FFD43B); }
+  .pf-skill.ml .ico { background: linear-gradient(135deg, #6E48AA, #9D50BB); }
+  .pf-skill.sql .ico { background: linear-gradient(135deg, #00758F, #00C2CB); }
+  .pf-skill .nm {
+    flex: 1; font-size: 11px; font-weight: 600; color: #0A0A0B;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  [data-theme="dark"] .pf-skill .nm { color: #F5F5F7; }
+  .pf-skill .lv {
+    font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 999px;
+    letter-spacing: 0.02em; flex-shrink: 0;
+  }
+  .pf-skill .lv.expert {
+    background: linear-gradient(135deg, #FFB300, #FF9500); color: #fff;
+  }
+  .pf-skill .lv.advanced {
+    background: color-mix(in srgb, #007AFF 14%, transparent); color: #007AFF;
+  }
+  .pf-skill .lv.intermediate {
+    background: color-mix(in srgb, #34C759 16%, transparent); color: #248a3d;
+  }
+  [data-theme="dark"] .pf-skill .lv.intermediate { color: #34C759; }
+
+  /* ── DIFFERENTIATOR ──────────────────────────────── */
+  .diff-grid {
+    margin-top: 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+  }
+  @media (max-width: 860px) { .diff-grid { grid-template-columns: 1fr; } }
+  .diff-card {
+    background: var(--card); border-radius: var(--radius-lg);
+    padding: 36px; box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column;
+  }
+  .diff-card .tag {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .diff-card.new .tag { color: var(--blue); }
+  .diff-card h3 {
+    font-size: 26px; letter-spacing: -0.02em; margin: 8px 0 18px; font-weight: 700;
+    text-wrap: balance;
+  }
+  .diff-list { display: flex; flex-direction: column; gap: 12px; margin: 8px 0 0; }
+  .diff-list .item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 10px 0;
+    border-top: 1px solid var(--hairline-2);
+    font-size: 14px; line-height: 1.5;
+  }
+  .diff-list .item:first-child { border-top: 0; padding-top: 0; }
+  .diff-list .ico {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+    display: grid; place-items: center; margin-top: 1px;
+  }
+  .diff-card.old .ico { background: color-mix(in srgb, #FF3B30 14%, transparent); color: #FF3B30; }
+  .diff-card.new .ico { background: var(--blue-tint); color: var(--blue); }
+  .diff-list .item .txt { color: var(--ink-2); }
+  .diff-card.old .item .txt { opacity: 0.65; }
+  .diff-pill {
+    margin-top: auto; padding-top: 26px;
+    font-size: 12px; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+
+  /* ── SCREENS ROW ─────────────────────────────────── */
+  .screens-row {
+    margin-top: 56px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .screens-row { grid-template-columns: 1fr; gap: 48px; place-items: center; }
+  }
+  .screen-cell { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+  .screen-cell .phone { width: 270px; height: 550px; padding: 10px; border-radius: 42px; }
+  .screen-cell .phone .screen { border-radius: 32px; }
+  .screen-cell .phone .notch { top: 10px; width: 84px; height: 24px; }
+  .screen-cell .phone .status { padding-top: 12px; height: 44px; font-size: 11px; }
+  .screen-cell .label { text-align: center; max-width: 260px; }
+  .screen-cell .label .num { font-size: 12px; color: var(--blue); font-weight: 600; }
+  .screen-cell .label h4 { font-size: 18px; margin: 4px 0 6px; letter-spacing: -0.015em; }
+  .screen-cell .label p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.5; }
+  .screen-cell .phone { transform: rotate(-1.5deg); transition: transform .3s ease; }
+  .screen-cell:nth-child(2) .phone { transform: rotate(0deg); }
+  .screen-cell:nth-child(3) .phone { transform: rotate(1.5deg); }
+  .screen-cell:hover .phone { transform: rotate(0deg) translateY(-6px); }
+
+  /* ── SCREEN: skill levels ───────────────────────── */
+  .lv-screen { padding-top: 48px; height: 100%; display: flex; flex-direction: column; background: #F5F5F7; }
+  .lv-header { padding: 6px 18px 8px; display: flex; align-items: center; gap: 10px; }
+  .lv-header .back { width: 28px; height: 28px; border-radius: 8px; background: #fff; display: grid; place-items: center; font-size: 14px; }
+  .lv-header .ti { font-size: 13px; font-weight: 600; }
+  .lv-skill-card { margin: 4px 14px 14px; padding: 14px; background: #fff; border-radius: 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 2px rgba(16,18,25,0.04); }
+  .lv-skill-card .icon { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, #FFE0B2, #FFB300); display: grid; place-items: center; font-size: 22px; }
+  .lv-skill-card .meta .nm { font-size: 13px; font-weight: 700; }
+  .lv-skill-card .meta .pts { font-size: 11px; color: #8E8E93; margin-top: 2px; }
+  .lv-list { padding: 0 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .lv-row {
+    background: #fff; border-radius: 16px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 1px 2px rgba(16,18,25,0.04);
+  }
+  .lv-row .badge {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: grid; place-items: center; flex-shrink: 0;
+    font-size: 14px; color: #fff; font-weight: 700;
+  }
+  .lv-row .badge.b1 { background: #34C759; }
+  .lv-row .badge.b2 { background: #5AC8FA; }
+  .lv-row .badge.b3 { background: #007AFF; }
+  .lv-row .badge.b4 { background: #5856D6; }
+  .lv-row .badge.b5 { background: #1D1D1F; }
+  .lv-row.locked .badge { background: #E5E5EA; color: #8E8E93; }
+  .lv-row .meta { flex: 1; min-width: 0; }
+  .lv-row .meta .nm { font-size: 13px; font-weight: 600; color: #0A0A0B; }
+  .lv-row .meta .sub { font-size: 10px; color: #8E8E93; margin-top: 2px; }
+  .lv-row .stat {
+    font-size: 10px; padding: 3px 8px; border-radius: 999px;
+    background: #F5F5F7; color: #0A0A0B; font-weight: 600;
+  }
+  .lv-row.done .stat { background: rgba(52,199,89,0.16); color: #248a3d; }
+  .lv-row.active .stat { background: #007AFF; color: #fff; }
+  .lv-row.locked .meta .nm { color: #8E8E93; }
+  .lv-row.locked .stat { background: transparent; color: #8E8E93; padding-right: 0; }
+
+  /* ── SCREEN: profile / portfolio ────────────────── */
+  .pf-screen { padding-top: 50px; height: 100%; background: #F5F5F7; overflow: hidden; }
+  .pf-header { padding: 4px 18px 10px; display: flex; align-items: center; justify-content: space-between; }
+  .pf-header .ti { font-size: 14px; font-weight: 700; }
+  .pf-header .icn { width: 28px; height: 28px; border-radius: 50%; background: #fff; display: grid; place-items: center; font-size: 13px; }
+  .pf-card-top { margin: 0 14px 12px; padding: 16px; background: #fff; border-radius: 22px; box-shadow: 0 1px 2px rgba(16,18,25,0.04); }
+  .pf-card-top .row { display: flex; align-items: center; gap: 12px; }
+  .pf-card-top .av { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #FF9500, #FF2D55); display: grid; place-items: center; color: #fff; font-size: 19px; font-weight: 700; }
+  .pf-card-top .nm { font-size: 15px; font-weight: 700; }
+  .pf-card-top .hd { font-size: 11px; color: #8E8E93; margin-top: 2px; }
+  .pf-card-top .stats { margin-top: 14px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .pf-card-top .stat-cell { background: #F5F5F7; border-radius: 12px; padding: 8px; text-align: center; }
+  .pf-card-top .stat-cell .num { font-size: 14px; font-weight: 700; color: #0A0A0B; }
+  .pf-card-top .stat-cell .lbl { font-size: 9px; color: #8E8E93; margin-top: 2px; }
+  .pf-section { padding: 4px 14px 0; }
+  .pf-section .h { font-size: 11px; font-weight: 700; color: #0A0A0B; padding: 10px 4px; }
+  .pf-skill {
+    background: #fff; border-radius: 14px; padding: 10px 12px;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+    box-shadow: 0 1px 2px rgba(16,18,25,0.04);
+  }
+  .pf-skill .ic { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .pf-skill .nm { flex: 1; font-size: 12px; font-weight: 600; color: #0A0A0B; }
+  .pf-skill .nm small { display: block; color: #8E8E93; font-size: 9px; font-weight: 500; margin-top: 1px; }
+  .pf-skill .lv {
+    font-size: 9px; padding: 3px 7px; border-radius: 999px;
+    font-weight: 700;
+  }
+  .pf-skill .lv.adv { background: rgba(0,122,255,0.12); color: #007AFF; }
+  .pf-skill .lv.int { background: rgba(88,86,214,0.12); color: #5856D6; }
+  .pf-skill .lv.beg { background: rgba(52,199,89,0.16); color: #248a3d; }
+
+  /* ── FINAL CTA ───────────────────────────────────── */
+  .final-cta {
+    background:
+      linear-gradient(135deg, #007AFF 0%, #0A84FF 50%, #4a92d8 100%);
+    color: #fff;
+    border-radius: var(--radius-xl);
+    padding: 80px 40px;
+    text-align: center;
+    position: relative; overflow: hidden;
+    margin: 0 0 90px;
+    box-shadow: 0 30px 80px -30px rgba(0,122,255,0.4);
+  }
+  .final-cta::before, .final-cta::after {
+    content: ""; position: absolute;
+    width: 380px; height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+    filter: blur(20px);
+  }
+  .final-cta::before { top: -120px; left: -100px; }
+  .final-cta::after { bottom: -180px; right: -100px; }
+  .final-cta > * { position: relative; z-index: 1; }
+  .final-cta h2 {
+    font-size: clamp(32px, 4.5vw, 52px);
+    color: #fff; margin: 0;
+  }
+  .final-cta p {
+    margin: 18px auto 32px; max-width: 560px;
+    font-size: 17px; line-height: 1.55; color: rgba(255,255,255,0.85);
+    text-wrap: pretty;
+  }
+  .final-cta .btn-primary {
+    background: #fff; color: var(--blue);
+  }
+  .final-cta .btn-primary:hover { background: #f5f5f7; }
+  .final-cta .btn-secondary {
+    background: rgba(255,255,255,0.14); color: #fff;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.18);
+  }
+  .final-cta .btn-secondary:hover { background: rgba(255,255,255,0.22); }
+  .final-cta .stores { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .final-cta .btn-store { background: rgba(0,0,0,0.28); color: #fff; }
+  .final-cta .btn-store:hover { background: rgba(0,0,0,0.42); }
+
+  .final-waitlist {
+    margin: 0 auto; max-width: 460px;
+    display: flex; gap: 8px;
+    background: rgba(255,255,255,0.96); padding: 7px 7px 7px 18px;
+    border-radius: 999px;
+  }
+  .final-waitlist input {
+    flex: 1; min-width: 0; border: 0; background: transparent;
+    font-family: inherit; font-size: 15px; color: var(--ink); outline: 0;
+  }
+
+  /* ── FOOTER ──────────────────────────────────────── */
+  footer {
+    padding: 36px 0 48px;
+    border-top: 1px solid var(--hairline);
+  }
+  footer .container {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 18px;
+    font-size: 13px; color: var(--muted);
+  }
+  footer .links { display: flex; gap: 22px; }
+  footer .links a:hover { color: var(--ink-2); }
+
+  /* utility */
+  .sr { position: absolute; left: -9999px; }
+
+  /* Cross-page hash links — leave room for the sticky nav */
+  #how, #why, #screens, #cta { scroll-margin-top: 80px; }
+
+  /* ── Image-based phone mockups (uploaded screenshots with bezel baked in) ── */
+  .phone-img {
+    display: block;
+    width: 320px;
+    height: auto;
+    filter: drop-shadow(0 30px 60px rgba(16,18,25,0.18)) drop-shadow(0 8px 20px rgba(16,18,25,0.08));
+  }
+  [data-theme="dark"] .phone-img {
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.7)) drop-shadow(0 8px 20px rgba(0,0,0,0.4));
+  }
+
+  /* In-app screen cells — image phones get tilt + lift on hover */
+  .screen-cell .phone-img {
+    width: 300px;
+    height: 600px;
+    object-fit: contain;
+    object-position: top;
+    transform: rotate(-1.5deg);
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), filter 0.55s ease;
+    will-change: transform;
+    display: block;
+  }
+  .screens-row .screen-cell:nth-child(2) .phone-img { transform: rotate(0deg); }
+  .screens-row .screen-cell:nth-child(3) .phone-img { transform: rotate(1.5deg); }
+  .screen-cell:hover .phone-img {
+    transform: rotate(0deg) translateY(-10px) scale(1.03) !important;
+    filter: drop-shadow(0 40px 70px rgba(16,18,25,0.22)) drop-shadow(0 12px 28px rgba(16,18,25,0.12));
+  }
+  [data-theme="dark"] .screen-cell:hover .phone-img {
+    filter: drop-shadow(0 40px 70px rgba(0,0,0,0.8)) drop-shadow(0 12px 28px rgba(0,0,0,0.5));
+  }
+
+  /* ── ANIMATIONS (Apple-style) ────────────────────── */
+
+  /* Hero entry — staggered fade + lift, runs on load */
+  @keyframes heroIn {
+    0%   { opacity: 0; transform: translate3d(0, 16px, 0); filter: blur(6px); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0);    filter: blur(0); }
+  }
+  @keyframes phoneIn {
+    0%   { opacity: 0; transform: translate3d(0, 28px, 0) rotate(-2deg) scale(0.96); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0)    rotate(-2deg) scale(1); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.85; transform: scale(1); }
+    50%      { opacity: 1;    transform: scale(1.06); }
+  }
+
+  .hero .pill,
+  .hero h1.headline,
+  .hero .sub,
+  .hero .hero-cta,
+  .hero .hero-meta { opacity: 0; animation: heroIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .hero .pill        { animation-delay: 0.05s; }
+  .hero h1.headline  { animation-delay: 0.15s; }
+  .hero .sub         { animation-delay: 0.30s; }
+  .hero .hero-cta    { animation-delay: 0.45s; }
+  .hero .hero-meta   { animation-delay: 0.55s; }
+  @keyframes heroImgIn {
+    0%   { opacity: 0; transform: translate3d(0, 28px, 0) scale(0.97); filter: blur(4px); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0); }
+  }
+  .phone-stage .phone-img {
+    opacity: 0;
+    animation: heroImgIn 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.20s forwards;
+    will-change: transform, opacity;
+  }
+  .phone-stage::before {
+    animation: glowPulse 8s ease-in-out infinite;
+  }
+
+  /* Reveal on scroll — set initial state, transition to in-view */
+  [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+    transition:
+      opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  [data-reveal].in {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  /* Stagger children inside a reveal group */
+  [data-reveal-stagger] > * {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-reveal-stagger].in > * { opacity: 1; transform: translate3d(0, 0, 0); }
+  [data-reveal-stagger].in > *:nth-child(1) { transition-delay: 0.00s; }
+  [data-reveal-stagger].in > *:nth-child(2) { transition-delay: 0.10s; }
+  [data-reveal-stagger].in > *:nth-child(3) { transition-delay: 0.20s; }
+  [data-reveal-stagger].in > *:nth-child(4) { transition-delay: 0.30s; }
+
+  /* Phone tilt under cursor (set via JS custom props) */
+  .screens-row .screen-cell .phone {
+    transition:
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.55s ease;
+  }
+  .screens-row .screen-cell:hover .phone {
+    transform: rotate(0deg) translateY(-10px) scale(1.02);
+  }
+
+  /* Button micro-interactions — refined Apple feel */
+  .btn {
+    transition:
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s ease,
+      background 0.2s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary:hover {
+    box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset, 0 10px 22px -6px rgba(0,122,255,0.55);
+  }
+  .btn-store {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, box-shadow 0.25s ease;
+  }
+  .btn-store:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -10px rgba(16,18,25,0.5); }
+
+  /* Skill cards in the hero phone — gentle hover lift */
+  .skill-card { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+
+  /* Diff cards — accent stripe slides in on reveal */
+  .diff-card {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  }
+  .diff-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+  /* Hiw cards — same treatment */
+  .hiw-card {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  }
+  .hiw-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+  /* Final CTA — subtle scale on enter */
+  .final-cta { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+
+  /* Number ticker styling */
+  .proof-stat .num { transition: opacity 0.4s ease; }
+
+  /* ── MOBILE BRIDGE-PAGE OPTIMIZATIONS ───────────────── */
+  @media (max-width: 760px) {
+    /* tighter nav */
+    nav.top .container { height: 56px; }
+    nav.top .container .btn-primary { height: 38px; padding: 0 14px; font-size: 13px; }
+    .brand .name { font-size: 16px; }
+
+    /* hero */
+    section.hero { padding: 18px 0 28px; }
+    .hero-grid { gap: 22px; }
+    h1.headline {
+      font-size: clamp(34px, 9vw, 44px);
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+      margin-top: 16px;
+    }
+    .hero .sub { font-size: 16px; line-height: 1.5; margin-top: 14px; }
+    .hero .sub + .sub { margin-top: 10px; }
+    .hero-cta { margin-top: 22px; gap: 10px; }
+    .hero-cta .btn-store { width: 100%; height: 58px; justify-content: center; }
+    .hero-cta .btn-primary.btn-install {
+      width: 100%; height: 58px; padding: 0 22px;
+      font-size: 16px; border-radius: 16px;
+    }
+    .hero-meta { gap: 14px; margin-top: 18px; font-size: 12px; }
+    .pill { font-size: 12px; padding: 5px 11px 5px 7px; }
+
+    /* hero phone — smaller so CTAs fit above the fold */
+    .phone-stage { margin-top: 0; }
+    .phone-stage .phone-img { max-width: 320px; width: 100% !important; margin: 0 auto; }
+
+    /* proof grid — stack as condensed pills */
+    .proof-grid { padding: 18px 18px; gap: 16px; border-radius: 22px; }
+    .proof-stat .num { font-size: 28px; }
+    .proof-quote { font-size: 13px; padding-left: 14px; }
+    .proof-trust .row { font-size: 12px; }
+
+    /* sections */
+    section { padding: 48px 0; }
+    h2 { font-size: clamp(28px, 7vw, 36px); }
+    .lead { font-size: 15px; }
+    .eyebrow { font-size: 11px; }
+
+    /* how-it-works cards */
+    .hiw-grid { gap: 14px; margin-top: 32px; }
+    .hiw-card { padding: 22px; gap: 16px; border-radius: 22px; }
+    .hiw-card h3 { font-size: 20px; }
+    .hiw-card p { font-size: 13.5px; }
+
+    /* differentiator */
+    .diff-grid { gap: 14px; margin-top: 32px; }
+    .diff-card { padding: 24px; border-radius: 22px; }
+    .diff-card h3 { font-size: 22px; }
+    .diff-list .item { font-size: 13.5px; padding: 9px 0; }
+
+    /* in-app screens — bigger, more breathing room */
+    .screens-row { gap: 36px; margin-top: 32px; }
+    .screen-cell { gap: 16px; }
+    .screen-cell .phone-img {
+      width: 240px !important; height: auto !important;
+      transform: rotate(0deg) !important;
+    }
+    .screen-cell .label h4 { font-size: 17px; }
+    .screen-cell .label p { font-size: 13.5px; }
+
+    /* final CTA — anchor target for /#download */
+    .final-cta {
+      padding: 48px 22px;
+      border-radius: 26px;
+      margin-bottom: 56px;
+    }
+    .final-cta h2 { font-size: clamp(26px, 7vw, 34px); line-height: 1.12; }
+    .final-cta p { font-size: 15px; margin: 14px auto 22px; }
+    .final-cta .stores { flex-direction: column; gap: 10px; width: 100%; max-width: 320px; margin: 0 auto; }
+    .final-cta .stores .btn-store { width: 100%; height: 58px; justify-content: center; }
+
+    /* footer */
+    footer { padding: 24px 0 32px; }
+    footer .container { flex-direction: column; align-items: flex-start; gap: 14px; }
+  }
+
+  /* OS-aware visibility helpers */
+  .os-ios, .os-android, .os-desktop { display: none; }
+  body[data-os="ios"] .os-ios { display: inline-flex; }
+  body[data-os="android"] .os-android { display: inline-flex; }
+  body[data-os="desktop"] .os-desktop, body[data-os="other"] .os-desktop { display: inline-flex; }
+
+  /* On mobile, show only the store button matching the device OS in the hero */
+  @media (max-width: 760px) {
+    body[data-os="ios"] .hero-cta [data-store="android"] { display: none; }
+    body[data-os="android"] .hero-cta [data-store="ios"] { display: none; }
+    body[data-os="ios"] .hero-cta [data-store="ios"],
+    body[data-os="android"] .hero-cta [data-store="android"] {
+      width: 100%; height: 60px; justify-content: center;
+      background: var(--blue); color: #fff; border-radius: 16px;
+      box-shadow: 0 10px 24px -8px rgba(0,122,255,0.55);
+    }
+    body[data-os="ios"] .hero-cta [data-store="ios"]:hover,
+    body[data-os="android"] .hero-cta [data-store="android"]:hover {
+      background: #0066d6;
+    }
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    [data-reveal], [data-reveal-stagger] > * { opacity: 1 !important; transform: none !important; }
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<!-- ─── Persisted defaults / Tweaks ────────────────────── -->
+<script>
+window.PEAK_TWEAKS = /*EDITMODE-BEGIN*/{
+  "theme": "light",
+  "ctaMode": "live",
+  "headlineVariant": "prove",
+  "accentHue": 211
+}/*EDITMODE-END*/;
+</script>
+
+<!-- ─── NAV ─────────────────────────────────────────────── -->
+<nav class="top">
+  <div class="container">
+    <a href="#" class="brand" aria-label="Peak home">
+      <span class="mark" aria-hidden="true"><span class="peak-mark"></span></span>
+      <span class="name">Peak</span>
+    </a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#why">Why it's different</a>
+      <a href="#screens">In the app</a>
+    </div>
+    <a href="#cta" class="btn btn-primary" data-cta-link>Join waitlist</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="pill">Now in beta
+· iOS &amp; Android</span>
+      <h1 class="headline" data-headline>
+        Learn real skills.<br />
+        Build the <span class="accent">proof.</span>
+      </h1>
+      <p class="sub">Peak is a skill-learning app for mobile. You advance by learning the required information, and showing your skills by completing real projects.</p>
+      <p class="sub" style="margin-top:14px;">Every project becomes a verified credential on your public profile that companies can actually trust.</p>
+
+      <div class="hero-cta" data-cta-row>
+        <!-- Replaced by JS based on ctaMode -->
+      </div>
+
+      <div class="hero-meta">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Free to learn
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:#8E8E93"><polyline points="20 6 9 17 4 12"/></svg>
+          Real projects
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Verifiable portfolio
+        </span>
+      </div>
+    </div>
+
+    <div class="phone-stage">
+      <!-- HERO: skill map illustration -->
+      <img class="phone-img" src="assets/hero_image_2.png" alt="Peak app — skill map showing various skills orbiting the Peak logo" style="width: 501px" />
+    </div>
+  </div>
+</section>
+
+<!-- ─── SOCIAL PROOF ────────────────────────────────────── -->
+<section class="proof" style="padding-top:0;padding-bottom:0">
+  <div class="container">
+    <div class="proof-grid" data-reveal data-reveal-stagger>
+      <div class="proof-stat">
+        <div class="num">1,200+</div>
+        <div class="lbl">on the early-access waitlist</div>
+      </div>
+      <div class="proof-quote">"Finally a learning app where I have something to show at the end, not just another certificate to add to a list."<span class="cite">— Maya R. · beta tester · CS student</span></div>
+      <div class="proof-trust">
+        <span class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Built for iOS &amp; Android
+        </span>
+        <span class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Curated by AI, vetted by humans
+        </span>
+        <span class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Completely for Free
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ────────────────────────────────────── -->
+<section id="how">
+  <div class="container">
+    <div class="center" style="max-width:680px;margin:0 auto" data-reveal>
+      <span class="eyebrow">How it works</span>
+      <h2>Three steps. One verified portfolio.</h2>
+      <p class="lead">No multiple-choice. No "you watched the video, here's a certificate." Peak builds your profile from what you actually ship.</p>
+    </div>
+
+    <div class="hiw-grid" data-reveal data-reveal-stagger>
+      <div class="hiw-card">
+        <div class="step">1</div>
+        <h3>Learn</h3>
+        <p>Follow a structured, AI-curated path for any in-demand skill, from Novice to Expert difficulty.</p>
+        <div class="hiw-illus">
+          <img src="assets/hiw-learn.png" alt="Digital marketing skill progress with Novice, Beginner and Intermediate levels" class="hiw-img" />
+        </div>
+      </div>
+
+      <div class="hiw-card">
+        <div class="step">2</div>
+        <h3>Build</h3>
+        <p>Complete real projects at every stage. The higher the difficulty, the harder it gets, and the more your credential is worth.</p>
+        <div class="hiw-illus">
+          <img src="assets/hiw-build.png" alt="Intermediate level showing Components, Tasks and Projects phases" class="hiw-img" />
+        </div>
+      </div>
+
+      <div class="hiw-card">
+        <div class="step">3</div>
+        <h3>Get discovered</h3>
+        <p>Your verified skills go on a public profile that companies and collaborators can actually trust.</p>
+        <div class="hiw-illus">
+          <img src="assets/hiw-discovered.png" alt="Sarah's verified profile with Digital marketing, Personal branding and Prompt engineering skills" class="hiw-img" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DIFFERENTIATOR ──────────────────────────────────── -->
+<section id="why" style="padding-top:0">
+  <div class="container">
+    <div class="center" style="max-width:720px;margin:0 auto" data-reveal>
+      <span class="eyebrow">Why Peak</span>
+      <h2>Skills earned, not self-reported.</h2>
+      <p class="lead">A LinkedIn skill tag is a claim. A Coursera badge is attendance. Peak credentials are receipts, built from real projects you can point to.</p>
+    </div>
+
+    <div class="diff-grid" data-reveal data-reveal-stagger>
+      <div class="diff-card old">
+        <span class="tag">The old way</span>
+        <h3>Skills you say you have</h3>
+        <div class="diff-list">
+          <div class="item">
+            <span class="ico">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </span>
+            <span class="txt">Self-reported tags anyone can add to their profile.</span>
+          </div>
+          <div class="item">
+            <span class="ico">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </span>
+            <span class="txt">Certificates that prove you watched, not that you can do.</span>
+          </div>
+          <div class="item">
+            <span class="ico">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </span>
+            <span class="txt">Endless courses with no portfolio at the end.</span>
+          </div>
+          <div class="item">
+            <span class="ico">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </span>
+            <span class="txt">Multiple-choice quizzes that don't reflect real work.</span>
+          </div>
+        </div>
+        <span class="diff-pill">Recruiters spend their day filtering this.</span>
+      </div>
+
+      <div class="diff-card new">
+        <span class="tag">The Peak way</span>
+        <h3>Skills you can prove</h3>
+        <div class="diff-list">
+          <div class="item">
+            <span class="ico">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span class="txt">Every credential is backed by a real project you submitted.</span>
+          </div>
+          <div class="item">
+            <span class="ico">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span class="txt">Skill points scale with project difficulty, not time spent.</span>
+          </div>
+          <div class="item">
+            <span class="ico">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span class="txt">A public portfolio companies can read, compare, and trust.</span>
+          </div>
+          <div class="item">
+            <span class="ico">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span class="txt">Get matched to open roles based on what you actually built.</span>
+          </div>
+        </div>
+        <span class="diff-pill" style="color:var(--blue);font-weight:700">Your portfolio is the resume.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SCREENS ROW ─────────────────────────────────────── -->
+<section id="screens" style="padding-top:0">
+  <div class="container">
+    <div class="center" style="max-width:680px;margin:0 auto" data-reveal>
+      <span class="eyebrow">In the app</span>
+      <h2>Your work, your skills, your portfolio.</h2>
+      <p class="lead">Designed for people who'd rather build something than fill out another form.</p>
+    </div>
+
+    <div class="screens-row" data-reveal data-reveal-stagger>
+      <!-- Screen 1: Home -->
+      <div class="screen-cell">
+        <img class="phone-img" src="assets/home_page_2.png" alt="Peak app — home screen with skill discovery and Explore skills list" style="width: 320px" />
+        <div class="label">
+          <div class="num">01 · Home</div>
+          <h4>Pick a skill. Start building.</h4>
+          <p>Browse in-demand skills and choose the one you want to master. Your path is mapped out the moment you pick.</p>
+        </div>
+      </div>
+
+      <!-- Screen 2: Skill path -->
+      <div class="screen-cell">
+        <img class="phone-img" src="assets/skill_progress.png" alt="Peak app — skill path showing Marketing 58% completed with Novice, Beginner done and Intermediate in progress" style="width: 320px" />
+        <div class="label">
+          <div class="num">02 · Skill path</div>
+          <h4>Five levels. Real projects.</h4>
+          <p>Every stage has real projects, and you can't just skip ahead.</p>
+        </div>
+      </div>
+
+      <!-- Screen 3: Portfolio -->
+      <div class="screen-cell">
+        <img class="phone-img" src="assets/portfolio.png" alt="Peak app — portfolio screen showing My Progress, project counts, and Top skills" style="object-fit: contain; width: 320px" />
+        <div class="label">
+          <div class="num">03 · Portfolio</div>
+          <h4>The portfolio is the resume.</h4>
+          <p>One public link. Companies see exactly what you built and how hard the projects were.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FINAL CTA ───────────────────────────────────────── -->
+<section id="cta" style="padding-top:0">
+  <div class="container">
+    <a id="download" style="display:block;position:relative;top:-72px;visibility:hidden" aria-hidden="true"></a>
+    <div class="final-cta" data-reveal>
+      <h2>Start building the portfolio that proves what you know.</h2>
+      <p>Available now on the App Store and Google Play. Download Peak and start building your verified portfolio today.</p>
+      <div data-final-cta></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ──────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="brand" style="font-size:14px">
+      <span class="mark" aria-hidden="true" style="width:24px;height:24px"><span class="peak-mark"></span></span>
+      <span class="name">Peak</span>
+    </div>
+    <div class="links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="mailto:hello@peak.app">Contact</a>
+    </div>
+    <div>© 2026 Peak. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- React + Tweaks -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="peak-tweaks.jsx"></script>
+
+<script>
+  // Detect OS for smart install CTAs (TikTok in-app browser, mobile, desktop)
+  (function detectOS() {
+    const ua = (navigator.userAgent || '').toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(ua) || (ua.includes('mac') && navigator.maxTouchPoints > 1);
+    const isAndroid = /android/.test(ua);
+    let os = 'desktop';
+    if (isIOS) os = 'ios';
+    else if (isAndroid) os = 'android';
+    document.body.setAttribute('data-os', os);
+  })();
+
+  // Render CTAs based on persisted ctaMode
+  (function renderCTAs() {
+    const T = window.PEAK_TWEAKS || {};
+    const IOS_URL = 'https://testflight.apple.com/join/XkunrTkg';
+    const ANDROID_URL = 'https://play.google.com/store/apps/details?id=com.patchamp.peak';
+    const heroRow = document.querySelector('[data-cta-row]');
+    const finalSlot = document.querySelector('[data-final-cta]');
+    const navCta = document.querySelector('[data-cta-link]');
+
+    function waitlistMarkup({ big } = {}) {
+      const cls = big ? 'final-waitlist' : 'waitlist';
+      return `
+        <form class="${cls}" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ You\\'re on the list'; setTimeout(()=>this.querySelector('button').textContent='Get early access',2400);">
+          <input type="email" required placeholder="you@email.com" />
+          <button type="submit" class="btn btn-primary">Get early access</button>
+        </form>`;
+    }
+    function storeMarkup() {
+      return `
+        <a class="btn-store" data-store="ios" href="${IOS_URL}" target="_blank" rel="noopener"><img src="assets/apple_logo.png" width="20" height="24" alt="Apple" style="object-fit:contain;flex-shrink:0" /><span><span class="lbl-small">Download on the</span><span class="lbl-big">App Store</span></span></a>
+        <a class="btn-store" data-store="android" href="${ANDROID_URL}" target="_blank" rel="noopener"><img src="assets/googleplay_logo.png" width="22" height="22" alt="Google Play" style="object-fit:contain;flex-shrink:0" /><span><span class="lbl-small">Get it on</span><span class="lbl-big">Google Play</span></span></a>`;
+    }
+
+    if (T.ctaMode === 'live') {
+      heroRow.innerHTML = `<div class="hero-cta" style="display:flex;gap:12px;flex-wrap:wrap;margin:0">${storeMarkup()}</div>`;
+      finalSlot.innerHTML = `<div class="stores">${storeMarkup()}</div>`;
+      navCta.textContent = 'Download';
+      navCta.setAttribute('href', 'download.html');
+    } else {
+      heroRow.innerHTML = waitlistMarkup();
+      finalSlot.innerHTML = waitlistMarkup({ big: true });
+      navCta.textContent = 'Join waitlist';
+    }
+
+    // headline variants
+    const h = document.querySelector('[data-headline]');
+    if (T.headlineVariant === 'show') {
+      h.innerHTML = 'Stop saying you know it.<br/><span class="accent">Show what you built.</span>';
+    } else if (T.headlineVariant === 'portfolio') {
+      h.innerHTML = 'A skills app that<br/>builds your <span class="accent">portfolio.</span>';
+    } else {
+      h.innerHTML = 'Learn real skills.<br/>Build the <span class="accent">proof.</span>';
+    }
+
+    // theme
+    document.body.dataset.theme = T.theme === 'dark' ? 'dark' : 'light';
+  })();
+</script>
+
+<script>
+  // ── Apple-style scroll & interaction animations ────────────────
+  (function animations() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('in'));
+      return;
+    }
+
+    // 1. IntersectionObserver — reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+    // 2 + 3. Combined hero image effects — scroll parallax + pointer tilt
+    const stage = document.querySelector('.phone-stage');
+    const heroPhone = stage && stage.querySelector('.phone-img');
+    if (heroPhone && stage) {
+      let scrollY = 0, scrollTarget = 0;
+      let rx = 0, ry = 0, trx = 0, try_ = 0;
+      let raf = null;
+      let entryDone = false;
+
+      // once the entry animation finishes, take over the transform
+      heroPhone.addEventListener('animationend', () => { entryDone = true; kick(); }, { once: true });
+
+      const tick = () => {
+        if (!entryDone) { raf = null; return; }
+        scrollY += (scrollTarget - scrollY) * 0.10;
+        rx += (trx - rx) * 0.10;
+        ry += (try_ - ry) * 0.10;
+        heroPhone.style.transform =
+          `perspective(1400px) translate3d(0, ${scrollY.toFixed(2)}px, 0) ` +
+          `rotateY(${rx.toFixed(2)}deg) rotateX(${ry.toFixed(2)}deg)`;
+        const moving =
+          Math.abs(scrollTarget - scrollY) > 0.05 ||
+          Math.abs(trx - rx) > 0.05 ||
+          Math.abs(try_ - ry) > 0.05;
+        raf = moving ? requestAnimationFrame(tick) : null;
+      };
+      const kick = () => { if (!raf && entryDone) raf = requestAnimationFrame(tick); };
+
+      window.addEventListener('scroll', () => {
+        const r = stage.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const p = Math.max(-0.5, Math.min(1, (vh - r.top) / (vh + r.height)));
+        scrollTarget = p * -22;
+        kick();
+      }, { passive: true });
+
+      stage.addEventListener('pointermove', (e) => {
+        const r = stage.getBoundingClientRect();
+        const cx = (e.clientX - r.left) / r.width - 0.5;
+        const cy = (e.clientY - r.top) / r.height - 0.5;
+        trx = cx * 5; try_ = -cy * 5;
+        kick();
+      });
+      stage.addEventListener('pointerleave', () => { trx = 0; try_ = 0; kick(); });
+    }
+
+    // 4. Number counter — counts up when proof grid enters view
+    const numEl = document.querySelector('.proof-stat .num');
+    if (numEl) {
+      const target = 1200;
+      const cIo = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          cIo.unobserve(e.target);
+          const start = performance.now();
+          const dur = 1400;
+          const tick = (t) => {
+            const p = Math.min(1, (t - start) / dur);
+            // easeOutCubic
+            const eased = 1 - Math.pow(1 - p, 3);
+            const v = Math.round(target * eased);
+            numEl.textContent = v.toLocaleString() + '+';
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          numEl.textContent = '0+';
+          requestAnimationFrame(tick);
+        });
+      }, { threshold: 0.4 });
+      cIo.observe(numEl);
+    }
+
+    // 5. Pointer tilt on in-app screen-cell phone images (3D perspective tilt)
+    document.querySelectorAll('.screens-row .screen-cell').forEach((cell, i) => {
+      const img = cell.querySelector('.phone-img');
+      if (!img) return;
+      const baseRot = i === 0 ? -1.5 : i === 1 ? 0 : 1.5;
+      let rx = 0, ry = 0, trx = 0, try_ = 0, raf = null, hovering = false;
+
+      const tick = () => {
+        rx += (trx - rx) * 0.10;
+        ry += (try_ - ry) * 0.10;
+        const lift = hovering ? -10 : 0;
+        const scale = hovering ? 1.03 : 1;
+        const rot = hovering ? 0 : baseRot;
+        img.style.transform =
+          `perspective(900px) rotate(${rot}deg) translateY(${lift}px) scale(${scale}) ` +
+          `rotateY(${rx.toFixed(2)}deg) rotateX(${ry.toFixed(2)}deg)`;
+        const moving = Math.abs(trx - rx) > 0.05 || Math.abs(try_ - ry) > 0.05;
+        raf = moving ? requestAnimationFrame(tick) : null;
+      };
+      const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+
+      cell.addEventListener('pointermove', (e) => {
+        hovering = true;
+        const r = cell.getBoundingClientRect();
+        const cx = (e.clientX - r.left) / r.width - 0.5;
+        const cy = (e.clientY - r.top) / r.height - 0.5;
+        trx = cx * 8; try_ = -cy * 8;
+        kick();
+      });
+      cell.addEventListener('pointerleave', () => {
+        hovering = false;
+        trx = 0; try_ = 0;
+        kick();
+      });
+    });
+
+    // 6. Smooth-scroll for in-page anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        if (id && id.length > 1) {
+          const t = document.querySelector(id);
+          if (t) {
+            e.preventDefault();
+            const top = t.getBoundingClientRect().top + window.scrollY - 64;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
+        }
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
