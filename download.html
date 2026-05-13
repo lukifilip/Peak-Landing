@@ -212,7 +212,8 @@
     .btn-store .lbl-small { font-size: 11px; }
     .btn-store .lbl-big   { font-size: 17px; }
 
-    /* Trust strip — one row of pills, tight, soft */
+    /* Trust strip — only show the first two pills on mobile (Free to install / No credit card) */
+    .trust .row:nth-child(3) { display: none; }
     .trust {
       margin-top: 22px;
       max-width: 360px;
@@ -267,27 +268,8 @@
   .trust .row { display: inline-flex; align-items: center; gap: 6px; }
   .trust svg { width: 14px; height: 14px; }
 
-  /* OS-aware primary highlight — on phones, show only the matching store */
-  @media (max-width: 760px) {
-    body[data-os="ios"]     .stores [data-store="android"] { display: none; }
-    body[data-os="android"] .stores [data-store="ios"]     { display: none; }
-    body[data-os="ios"]     .stores [data-store="ios"],
-    body[data-os="android"] .stores [data-store="android"] {
-      background: #fff; color: var(--blue);
-      box-shadow:
-        0 1px 0 rgba(255,255,255,0.5) inset,
-        0 18px 36px -12px rgba(0,0,0,0.32),
-        0 6px 14px -6px rgba(0,0,0,0.22);
-    }
-    body[data-os="ios"]     .stores [data-store="ios"]:hover,
-    body[data-os="android"] .stores [data-store="android"]:hover {
-      background: #f5f5f7;
-    }
-    body[data-os="ios"]     .stores [data-store="ios"] .lbl-small,
-    body[data-os="android"] .stores [data-store="android"] .lbl-small {
-      opacity: 0.72;
-    }
-  }
+  /* On mobile keep BOTH store buttons visible with the same dark-blue style as desktop —
+     no white override, no OS-based hiding. */
 
   /* ── FOOTER ────────────────────────────────────────────── */
   footer {
