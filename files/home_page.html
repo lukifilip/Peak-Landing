@@ -383,7 +383,41 @@
     margin-top: 48px;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
   }
-  @media (max-width: 860px) { .hiw-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) {
+    .hiw-grid {
+      display: flex;
+      grid-template-columns: none;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding: 0 20px;
+      /* let cards peek past the container edges as a scroll cue */
+      margin-left: -20px;
+      margin-right: -20px;
+      padding: 4px 20px 14px;
+      scrollbar-width: none;
+    }
+    .hiw-grid::-webkit-scrollbar { display: none; }
+    .hiw-card {
+      flex: 0 0 80%;
+      scroll-snap-align: center;
+    }
+    .hiw-card:hover { transform: none; box-shadow: var(--shadow-sm); }
+  }
+
+  /* Scroll-position dots for the mobile how-it-works carousel */
+  .hiw-dots { display: none; }
+  @media (max-width: 860px) {
+    .hiw-dots {
+      display: flex; justify-content: center; gap: 7px; margin-top: 18px;
+    }
+    .hiw-dots span {
+      width: 7px; height: 7px; border-radius: 999px;
+      background: var(--hairline);
+      transition: background .25s ease, width .25s ease;
+    }
+    .hiw-dots span.on { background: var(--blue); width: 20px; }
+  }
   .hiw-card {
     background: var(--card); border-radius: var(--radius-lg);
     padding: 30px; position: relative; overflow: hidden;
@@ -1197,7 +1231,7 @@
   .full-width-image-placeholder img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
   }
   .free-text {
@@ -1341,6 +1375,36 @@
       margin-right: 0;
     }
   }
+
+  /* ── MOBILE HERO: fit one screen, CTA visible without scrolling ── */
+  @media (max-width: 760px) {
+    .new-hero-section {
+      padding: 8px 0 22px;
+      min-height: calc(100svh - 50px);
+      display: flex;
+      flex-direction: column;
+    }
+    .peak-app-title {
+      font-size: 16px;
+      padding-top: 10px;
+    }
+    /* "True expertise" — slightly smaller on mobile only */
+    .centered-headline {
+      font-size: 35px;
+    }
+    .full-width-image-placeholder {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: auto;
+      margin-top: 14px;
+    }
+    .free-text {
+      margin-top: 16px;
+    }
+    .button-wrapper {
+      margin-top: 12px;
+    }
+  }
 </style>
 </head>
 <body data-theme="light">
@@ -1376,7 +1440,7 @@ window.PEAK_TWEAKS = /*EDITMODE-BEGIN*/{
   <h1 class="centered-headline">True expertise</h1>
   
   <div class="full-width-image-placeholder">
-    <img src="../assets/home.jpg" alt="Peak App Screen" />
+    <img src="../assets/hero_skills_orbit.png" alt="Peak — learn in-demand skills and build a verified portfolio" />
   </div>
   
   <div class="free-text">Available for free</div>
@@ -1388,47 +1452,54 @@ window.PEAK_TWEAKS = /*EDITMODE-BEGIN*/{
     </a>
   </div>
   
-  <div class="highlights-section">
-    <h2 class="highlights-title">Highlights</h2>
-    <div class="highlights-grid">
-      <!-- Card 1: Learn Skills -->
-      <div class="highlight-card">
-        <img src="../assets/home.jpg" alt="Explore Skills" />
-        <div class="card-content">
-          <h3>Explore Skills</h3>
-          <p>Browse through in-demand tech and creative tracks curated by experts.</p>
+</section>
+
+<!-- ─── HOW IT WORKS ────────────────────────────────────── -->
+<section id="how">
+  <div class="container">
+    <div class="center" style="max-width:680px;margin:0 auto" data-reveal>
+      <span class="eyebrow">Why a portfolio</span>
+      <h2>Build a portfolio that gets you hired.</h2>
+      <p class="lead">Your portfolio is a verifiable record of the real projects you've shipped and the skills you've proven — not claims, but receipts. It's what gets you discovered, matched to open roles, and trusted by companies hiring. Here's how you build it.</p>
+    </div>
+
+    <div class="hiw-grid" data-reveal data-reveal-stagger>
+      <div class="hiw-card">
+        <div class="step">1</div>
+        <h3>Explore Skills</h3>
+        <p>Browse through in-demand tech and creative tracks curated by experts.</p>
+        <div class="hiw-illus">
+          <img src="../assets/browse_skills.png" alt="Explore Skills" class="hiw-img" />
         </div>
       </div>
-      <!-- Card 2: Structured Paths -->
-      <div class="highlight-card">
-        <img src="../assets/skill_progress.png" alt="Structured Paths" />
-        <div class="card-content">
-          <h3>Structured Paths</h3>
-          <p>Follow a 5-level journey designed to take you from novice to expert.</p>
+
+      <div class="hiw-card">
+        <div class="step">2</div>
+        <h3>Structured Paths</h3>
+        <p>Follow a 5-level journey designed to take you from novice to expert.</p>
+        <div class="hiw-illus">
+          <img src="../assets/skill_learning.png" alt="Structured Paths" class="hiw-img" />
         </div>
       </div>
-      <!-- Card 3: Real Projects -->
-      <div class="highlight-card">
-        <img src="../assets/portfolio.png" alt="Real Projects" />
-        <div class="card-content">
-          <h3>Real Projects</h3>
-          <p>Apply your learning by completing real projects and coding tasks.</p>
+
+      <div class="hiw-card">
+        <div class="step">3</div>
+        <h3>Verified Portfolio</h3>
+        <p>Your skills and shipped projects become one public profile companies trust — and use to discover, match, and hire you.</p>
+        <div class="hiw-illus">
+          <img src="../assets/portfolio_display.png" alt="Verified Portfolio" class="hiw-img" />
         </div>
       </div>
-      <!-- Card 4: Verified Portfolio -->
-      <div class="highlight-card">
-        <img src="../assets/welcome_card.png" alt="Verified Portfolio" />
-        <div class="card-content">
-          <h3>Verified Portfolio</h3>
-          <p>Build a public profile of verified credentials that employers trust.</p>
-        </div>
-      </div>
+    </div>
+
+    <div class="hiw-dots" aria-hidden="true">
+      <span class="on"></span><span></span><span></span>
     </div>
   </div>
 </section>
 
 <!-- ─── SOCIAL PROOF ────────────────────────────────────── -->
-<section class="proof" style="padding-top:0;padding-bottom:0">
+<section class="proof" style="padding-top:0;padding-bottom:90px">
   <div class="container">
     <div class="proof-grid" data-reveal data-reveal-stagger>
       <div class="proof-stat">
@@ -1449,46 +1520,6 @@ window.PEAK_TWEAKS = /*EDITMODE-BEGIN*/{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           Completely for Free
         </span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── HOW IT WORKS ────────────────────────────────────── -->
-<section id="how">
-  <div class="container">
-    <div class="center" style="max-width:680px;margin:0 auto" data-reveal>
-      <span class="eyebrow">How it works</span>
-      <h2>Three steps. One verified portfolio.</h2>
-      <p class="lead">No multiple-choice. No "you watched the video, here's a certificate." Peak builds your profile from what you actually ship.</p>
-    </div>
-
-    <div class="hiw-grid" data-reveal data-reveal-stagger>
-      <div class="hiw-card">
-        <div class="step">1</div>
-        <h3>Learn</h3>
-        <p>Follow a structured, AI-curated path for any in-demand skill, from Novice to Expert difficulty.</p>
-        <div class="hiw-illus">
-          <img src="assets/hiw-learn.png" alt="Digital marketing skill progress with Novice, Beginner and Intermediate levels" class="hiw-img" />
-        </div>
-      </div>
-
-      <div class="hiw-card">
-        <div class="step">2</div>
-        <h3>Build</h3>
-        <p>Complete real projects at every stage. The higher the difficulty, the harder it gets, and the more your credential is worth.</p>
-        <div class="hiw-illus">
-          <img src="assets/hiw-build.png" alt="Intermediate level showing Components, Tasks and Projects phases" class="hiw-img" />
-        </div>
-      </div>
-
-      <div class="hiw-card">
-        <div class="step">3</div>
-        <h3>Get discovered</h3>
-        <p>Your verified skills go on a public profile that companies and collaborators can actually trust.</p>
-        <div class="hiw-illus">
-          <img src="assets/hiw-discovered.png" alt="Sarah's verified profile with Digital marketing, Personal branding and Prompt engineering skills" class="hiw-img" />
-        </div>
       </div>
     </div>
   </div>
@@ -1583,7 +1614,7 @@ window.PEAK_TWEAKS = /*EDITMODE-BEGIN*/{
     <div class="screens-row" data-reveal data-reveal-stagger>
       <!-- Screen 1: Home -->
       <div class="screen-cell">
-        <img class="phone-img" src="assets/home.jpg" alt="Peak app — home screen with skill discovery and Explore skills list" style="width: 320px" />
+        <img class="phone-img" src="../assets/home.jpg" alt="Peak app — home screen with skill discovery and Explore skills list" style="width: 320px" />
         <div class="label">
           <div class="num">01 · Home</div>
           <h4>Pick a skill. Start building.</h4>
@@ -1593,7 +1624,7 @@ window.PEAK_TWEAKS = /*EDITMODE-BEGIN*/{
 
       <!-- Screen 2: Skill path -->
       <div class="screen-cell">
-        <img class="phone-img" src="assets/skill_progress.png" alt="Peak app — skill path showing Marketing 58% completed with Novice, Beginner done and Intermediate in progress" style="width: 320px" />
+        <img class="phone-img" src="../assets/skill_progress.png" alt="Peak app — skill path showing Marketing 58% completed with Novice, Beginner done and Intermediate in progress" style="width: 320px" />
         <div class="label">
           <div class="num">02 · Skill path</div>
           <h4>Five levels. Real projects.</h4>
@@ -1603,7 +1634,7 @@ window.PEAK_TWEAKS = /*EDITMODE-BEGIN*/{
 
       <!-- Screen 3: Portfolio -->
       <div class="screen-cell">
-        <img class="phone-img" src="assets/portfolio.png" alt="Peak app — portfolio screen showing My Progress, project counts, and Top skills" style="object-fit: contain; width: 320px" />
+        <img class="phone-img" src="../assets/portfolio.png" alt="Peak app — portfolio screen showing My Progress, project counts, and Top skills" style="object-fit: contain; width: 320px" />
         <div class="label">
           <div class="num">03 · Portfolio</div>
           <h4>The portfolio is the resume.</h4>
@@ -1855,6 +1886,28 @@ window.PEAK_TWEAKS = /*EDITMODE-BEGIN*/{
         }
       });
     });
+
+    // 7. How-it-works carousel — sync position dots while swiping (mobile)
+    const hiwGrid = document.querySelector('.hiw-grid');
+    const hiwDots = document.querySelectorAll('.hiw-dots span');
+    if (hiwGrid && hiwDots.length) {
+      const cards = hiwGrid.querySelectorAll('.hiw-card');
+      let dotRaf = null;
+      const syncDots = () => {
+        dotRaf = null;
+        const center = hiwGrid.scrollLeft + hiwGrid.clientWidth / 2;
+        let active = 0, best = Infinity;
+        cards.forEach((c, i) => {
+          const mid = c.offsetLeft + c.offsetWidth / 2;
+          const d = Math.abs(mid - center);
+          if (d < best) { best = d; active = i; }
+        });
+        hiwDots.forEach((dot, i) => dot.classList.toggle('on', i === active));
+      };
+      hiwGrid.addEventListener('scroll', () => {
+        if (!dotRaf) dotRaf = requestAnimationFrame(syncDots);
+      }, { passive: true });
+    }
   })();
 </script>
 
