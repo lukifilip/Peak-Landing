@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account Deletion Request — Peak</title>
+  <meta name="description" content="Account Deletion Request for Peak, an AI-powered skill learning and collaborative workspace app." />
+  <style>
+    :root {
+      --bg:        #F5F5F7;
+      --surface:   #FFFFFF;
+      --ink:       #19191D;
+      --ink-soft:  #3A3A41;
+      --muted:     #6C6C75;
+      --hairline:  #E2E2E6;
+      --accent:    #007AFF;
+      --bullet:    #8E8E93;
+      --radius:    18px;
+      --maxw:      1180px;
+      --font: Arial, Helvetica, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      color: var(--ink);
+      background-color: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── STICKY HEADER ── */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: #FFFFFF !important;
+      border-bottom: none; /* removed horizontal separator line */
+      width: 100%;
+    }
+    .header-inner {
+      max-width: 100%;
+      padding: 5px 20px; /* changed vertical padding to 8px */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+    .header-icon-link {
+      display: block;
+      cursor: pointer;
+    }
+    .header-icon {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: contain;
+    }
+    .header-nav-buttons {
+      display: flex;
+      gap: 16px;
+      margin-left: 20px; /* 20px to the right of app_icon */
+    }
+    .nav-btn {
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: normal;
+      color: #000000; /* changed color to #8E8E93 */
+      text-decoration: none;
+      padding: 6px 8px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    .nav-btn:hover {
+      color: #000000; /* hover color to black */
+    }
+
+    /* ── MAIN ──────────────────────────────────────────────── */
+    main {
+      flex: 1;
+      max-width: var(--maxw);
+      width: 100%;
+      margin: 0 auto;
+      padding: 34px 28px 64px;
+    }
+
+    .doc {
+      animation: fade .4s ease both;
+    }
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .doc-head { margin-bottom: 26px; }
+    .doc h1 {
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    h2 {
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-top: 28px;
+      margin-bottom: 10px;
+      padding-top: 6px;
+    }
+
+    /* Force all text in main and footer to be solid black */
+    main, main *, footer, footer * {
+      color: #000000 !important;
+    }
+
+    .warning-box {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-left: 4px solid #FF3B30; /* Apple Red */
+      border-radius: var(--radius);
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .warning-title {
+      font-weight: bold;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* Steps */
+    .steps { list-style: none; counter-reset: step; padding: 0; margin-top: 12px; }
+    .steps li { position: relative; padding-left: 3.5rem; margin-bottom: 20px; font-size: 15px; }
+    .steps li::before {
+      content: counter(step); counter-increment: step;
+      position: absolute; left: 0; top: 0; width: 2.2rem; height: 2.2rem;
+      background: #000000 !important; color: #FFFFFF !important; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; font-weight: bold;
+    }
+
+    .email-link { font-weight: 700; text-decoration: underline; }
+    .email-link:hover { text-decoration: none; }
+    .ui-path { background: #FFFFFF; padding: 2px 6px; border: 1px solid var(--hairline); border-radius: 6px; font-family: monospace; font-size: 0.9em; }
+
+    /* ── FOOTER ────────────────────────────────────────────── */
+    footer.site {
+      border-top: 1px solid var(--hairline);
+      background: var(--bg);
+    }
+    .foot-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 24px 28px 34px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+    }
+    .foot-links { display: flex; gap: 16px; }
+    .foot-links a {
+      font-family: var(--font); font-size: 13px; font-weight: 700;
+      text-decoration: none;
+    }
+    .foot-links a:hover { text-decoration: underline; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sticky-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <a href="home_page.html" class="header-icon-link">
+        <img src="../assets/app_icon.png" class="header-icon" alt="Peak Logo" />
+      </a>
+      <div class="header-nav-buttons">
+        <a href="privacy_policy.html" class="nav-btn">Privacy</a>
+        <a href="terms_service.html" class="nav-btn">Terms</a>
+        <a href="user_deletion.html" class="nav-btn">Account</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ─────────────── MAIN CONTENT ─────────────── -->
+<main>
+  <article class="doc">
+    <div class="doc-head">
+      <h1>Account Deletion Request</h1>
+    </div>
+
+    <p>At <strong>Peak</strong>, we value your privacy and your right to control your data. Below you will find the instructions on how to permanently delete your account and all associated data.</p>
+
+    <div class="warning-box">
+      <span class="warning-title">Permanent and Irreversible</span>
+      Deleting your account is <strong>permanent and cannot be reversed</strong>. Once processed, you will lose access to your profile, email history, company memberships, private chats, project data, and all earned skills. All personal information stored in our Firestore and Supabase databases will be wiped, subject to legal regulatory requirements.
+    </div>
+
+    <h2>Method 1: Direct In-App Deletion (Recommended)</h2>
+    <p>The fastest way to delete your data is directly through the Peak mobile application:</p>
+    <ul class="steps">
+      <li>
+        <strong>Open your Profile:</strong><br />
+        Tap your profile picture in the navigation widget container at the bottom of the screen.
+      </li>
+      <li>
+        <strong>Access Settings:</strong><br />
+        Click the <strong>Options button (three lines/dots)</strong> located in the top right corner of your profile screen.
+      </li>
+      <li>
+        <strong>Submit Deletion:</strong><br />
+        Scroll to the bottom of the page and click the <span class="ui-path">Delete Account</span> button. Confirm your choice when the final prompt appears.
+      </li>
+    </ul>
+
+    <h2>Method 2: Email Request</h2>
+    <p>If you no longer have the app installed, you may request deletion via email:</p>
+    <ul class="steps">
+      <li>
+        <strong>Contact Support:</strong><br />
+        Send an email to <a href="mailto:patrikfilip11@gmail.com" class="email-link">patrikfilip11@gmail.com</a>.
+      </li>
+      <li>
+        <strong>Required Information:</strong><br />
+        Please send the request from the email address associated with your Peak account. Include your <strong>Username</strong> and a clear statement that you wish for your account and all associated data to be permanently deleted.
+      </li>
+      <li>
+        <strong>Processing Time:</strong><br />
+        Our team will verify your identity and complete the deletion process within 30 days. You will receive a final confirmation email once the data has been purged.
+      </li>
+    </ul>
+  </article>
+</main>
+
+<footer class="site">
+  <div class="foot-inner">
+    <div>&copy; 2026 Peak. All rights reserved. <br />This page is provided to comply with Google Play's Data Safety and Account Deletion requirements.</div>
+    <div class="foot-links">
+      <a href="privacy_policy.html">Privacy</a>
+      <a href="terms_service.html">Terms</a>
+      <a href="user_deletion.html">Account</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terms of Service — Peak</title>
+<meta name="description" content="Terms of Service for Peak, an AI-powered skill learning and collaborative workspace app." />
+
+<style>
+  :root {
+    --bg:        #F5F5F7;
+    --surface:   #FFFFFF;
+    --ink:       #19191D;
+    --ink-soft:  #3A3A41;
+    --muted:     #6C6C75;
+    --hairline:  #E2E2E6;
+    --accent:    #007AFF;
+    --bullet:    #8E8E93;
+    --radius:    18px;
+    --maxw:      1180px;
+    --font: Arial, Helvetica, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    color: var(--ink);
+    background-color: var(--bg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── STICKY HEADER ── */
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #FFFFFF !important;
+    border-bottom: none; /* removed horizontal separator line */
+    width: 100%;
+  }
+  .header-inner {
+    max-width: 100%;
+    padding: 5px 20px; /* changed vertical padding to 8px */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
+  .header-icon-link {
+    display: block;
+    cursor: pointer;
+  }
+  .header-icon {
+    width: 30px;
+    height: 30px;
+    display: block;
+    object-fit: contain;
+  }
+  .header-nav-buttons {
+    display: flex;
+    gap: 16px;
+    margin-left: 20px; /* 20px to the right of app_icon */
+  }
+  .nav-btn {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: normal;
+    color: #000000; /* changed color to #8E8E93 */
+    text-decoration: none;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .nav-btn:hover {
+    color: #000000; /* hover color to black */
+  }
+
+  /* ── MAIN ──────────────────────────────────────────────── */
+  main {
+    flex: 1;
+    max-width: var(--maxw);
+    width: 100%;
+    margin: 0 auto;
+    padding: 34px 28px 64px;
+  }
+
+  .doc {
+    animation: fade .4s ease both;
+  }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .doc-head { margin-bottom: 26px; }
+  .doc h1 {
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .updated {
+    margin-top: 9px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .updated strong { color: var(--ink-soft); font-weight: 700; }
+
+  .lead {
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin: 18px 0 8px;
+  }
+
+  section.block { margin-top: 28px; }
+  section.block h2 {
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 10px;
+    padding-top: 6px;
+  }
+  section.block h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 18px 0 6px;
+  }
+
+  /* Force all text in main and footer to be solid black */
+  main, main *, footer, footer * {
+    color: #000000 !important;
+  }
+  ul { margin: 6px 0 15px; padding-left: 0; list-style: none; }
+  li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 9px;
+    font-size: 15px;
+  }
+  li::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #8E8E93 !important;
+  }
+  a.link { font-weight: 700; text-decoration: underline; }
+  a.link:hover { text-decoration: none; }
+
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  /* ── DATA TABLE ────────────────────────────────────────── */
+  .table-wrap {
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 14px 0 8px;
+    background: var(--surface);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 11px 12px; vertical-align: top; }
+  thead th {
+    background: #F5F5F7;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 12.5px;
+  }
+  tbody tr { border-top: 1px solid var(--hairline); }
+  tbody td:first-child { font-weight: 700; color: var(--ink); }
+  tbody td { color: var(--muted); }
+
+  /* ── FOOTER ────────────────────────────────────────────── */
+  footer.site {
+    border-top: 1px solid var(--hairline);
+    background: var(--bg);
+  }
+  .foot-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 24px 16px 34px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .foot-links { display: flex; gap: 16px; }
+  .foot-links a {
+    font-family: var(--font); font-size: 13px; font-weight: 700;
+    color: var(--ink-soft); text-decoration: none;
+  }
+  .foot-links a:hover { color: var(--accent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+
+  @media print {
+    header.site, footer.site { position: static; }
+    nav.tabs, .foot-links { display: none; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sticky-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <a href="home_page.html" class="header-icon-link">
+        <img src="../assets/app_icon.png" class="header-icon" alt="Peak Logo" />
+      </a>
+      <div class="header-nav-buttons">
+        <a href="privacy_policy.html" class="nav-btn">Privacy</a>
+        <a href="terms_service.html" class="nav-btn">Terms</a>
+        <a href="user_deletion.html" class="nav-btn">Account</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ─────────────── MAIN CONTENT ─────────────── -->
+<main>
+
+  <!-- ============ TERMS OF SERVICE ============ -->
+  <article class="doc" id="doc-terms" role="tabpanel" aria-labelledby="tab-terms">
+    <div class="doc-head">
+      <h1>Terms of Service</h1>
+      <p class="updated">Last updated: <strong>June 6, 2026</strong></p>
+    </div>
+
+    <p class="lead">Welcome to Peak. These Terms of Service govern your access to and use of the App. Please read them carefully.</p>
+    <p>Peak app is owned and operated by Peak. By downloading, installing, or using the App, you agree to be bound by these Terms. If you do not agree, please do not access or use the App.</p>
+
+    <section class="block">
+      <h2>Eligibility &amp; Accounts</h2>
+      <ul>
+        <li>You must be at least 16 years old (or the minimum age required in your region) to use Peak.</li>
+        <li>You are responsible for the accuracy of your account information and for keeping your login credentials secure. You are responsible for all activity that occurs under your account.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Description of Service</h2>
+      <p>Peak is an educational and professional ecosystem designed to guide users through structured skill development. We provide AI-generated learning plans, project-based skill verification, interactive practice and roleplay exercises, and collaborative workspaces (“Companies”) where users can create projects, assign tasks, communicate, and build teams.</p>
+    </section>
+
+    <section class="block">
+      <h2>AI-Powered Verification &amp; Technology Disclaimers</h2>
+      <p>The App uses advanced third-party AI models (including the Google Gemini API) to grade submissions, verify skill progression, and generate simulated roleplay scenarios.</p>
+      <ul>
+        <li>While we strive for high-quality evaluations, AI models can occasionally produce incorrect information or verify inaccurate submissions.</li>
+        <li>All AI outputs, suggestions, and verification assessments are provided “as is.” You should exercise independent judgment before relying on them.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Workspaces, Collaboration &amp; Financial Features</h2>
+      <p>Users can establish or join collaborative workspaces (“Companies”) with defined roles — Officers, Managers, and Employees.</p>
+      <ul>
+        <li><strong>Intermediary role only:</strong> The App acts solely as a platform to facilitate project collaboration, task allocation, and points/rewards management. We are not an employer, agent, or contracting party to any relationship, freelance arrangement, or employment structure formed between users in these workspaces.</li>
+        <li><strong>Vaults, credits &amp; bounties:</strong> Workspace payouts, virtual balances, and demo credits are handled entirely at the discretion of the workspace Officers and Managers. We are not liable for any disputes arising from project assignments, approvals, or workspace credit distributions.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Payments, Credits &amp; Virtual Balances</h2>
+      <ul>
+        <li>Funding, credits, and virtual balances are processed securely through Stripe. By making a transaction, you agree to Stripe’s applicable terms.</li>
+        <li>Demo credits and demo balances hold no monetary value and are provided for testing and simulation purposes only.</li>
+        <li>Except where required by law, payments and credit purchases are non-refundable.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>User Content &amp; Intellectual Property</h2>
+      <ul>
+        <li><strong>Your content:</strong> You retain full ownership of any text, code, files, or project submissions you create, upload, or share. By using the App, you grant us a limited license to store, process, and display your content solely to operate and provide the App’s features.</li>
+        <li><strong>Our content:</strong> Peak retains all rights, title, and ownership in the App’s curriculum database, generated learning plans, skill trees, user-interface designs, logos, and system-generated exercises.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Acceptable Use &amp; Restrictions</h2>
+      <p>You agree not to:</p>
+      <ul>
+        <li>Attempt to manipulate, exploit, or bypass the AI grading and verification systems.</li>
+        <li>Engage in harassment, hate speech, or abuse in private chats, group threads, or workspace channels.</li>
+        <li>Upload unlawful, infringing, or malicious content, or impersonate any person or entity.</li>
+        <li>Interfere with or disrupt the security or integrity of our backend systems (including Firebase and Supabase).</li>
+      </ul>
+      <p>We reserve the right to suspend or terminate accounts that violate these restrictions.</p>
+    </section>
+
+    <section class="block">
+      <h2>Third-Party Services</h2>
+      <p>The App relies on third-party services — including Google (Gemini, Cloud STT/TTS, Firebase, Analytics), Supabase, Agora, Stripe, Meta, and TikTok — to deliver its features. Your use of these features may also be subject to those providers’ terms and policies. We are not responsible for the practices of third-party services.</p>
+    </section>
+
+    <section class="block">
+      <h2>Disclaimers &amp; Limitation of Liability</h2>
+      <p>The App is provided “as is” and “as available,” without warranties of any kind, whether express or implied. To the fullest extent permitted by law, Peak shall not be liable for any indirect, incidental, special, or consequential damages, or for any loss of data, profits, or workspace credits, arising from your use of the App.</p>
+    </section>
+
+    <section class="block">
+      <h2>Termination</h2>
+      <p>You may stop using the App and delete your account at any time through Settings. We may suspend or terminate your access if you violate these Terms or use the App in a manner that may cause harm to us or other users. Provisions that by their nature should survive termination will continue to apply.</p>
+    </section>
+
+    <section class="block">
+      <h2>Changes to These Terms</h2>
+      <p>We may modify these Terms from time to time. When we make material changes, we will update the “Last updated” date above. Your continued use of the App after changes take effect constitutes acceptance of the revised Terms.</p>
+    </section>
+
+    <section class="block">
+      <h2>Governing Law</h2>
+      <p>These Terms are governed by the laws of <strong>Belgium</strong>, without regard to its conflict-of-laws principles. Any disputes arising from these Terms or your use of the App will be subject to the courts of that jurisdiction.</p>
+    </section>
+
+    <section class="block">
+      <h2>Contact Us</h2>
+      <p>For questions about these Terms, contact us at <a class="link" href="mailto:support@peak.com">support@peak.com</a>.</p>
+    </section>
+  </article>
+
+</main>
+
+<!-- ─────────────── FOOTER ─────────────── -->
+<footer class="site">
+  <div class="foot-inner">
+    <span>© <span id="year"></span> Peak. All rights reserved.</span>
+    <span class="foot-links">
+      <a href="privacy_policy.html">Privacy</a>
+      <a href="terms_service.html">Terms</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

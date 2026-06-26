@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy — Peak</title>
+<meta name="description" content="Privacy Policy for Peak, an AI-powered skill learning and collaborative workspace app." />
+
+<style>
+  :root {
+    --bg:        #F5F5F7;
+    --surface:   #FFFFFF;
+    --ink:       #19191D;
+    --ink-soft:  #3A3A41;
+    --muted:     #6C6C75;
+    --hairline:  #E2E2E6;
+    --accent:    #007AFF;
+    --bullet:    #8E8E93;
+    --radius:    18px;
+    --maxw:      1180px;
+    --font: Arial, Helvetica, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    color: var(--ink);
+    background-color: var(--bg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── STICKY HEADER ── */
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #FFFFFF !important;
+    border-bottom: none; /* removed horizontal separator line */
+    width: 100%;
+  }
+  .header-inner {
+    max-width: 100%;
+    padding: 5px 20px; /* changed vertical padding to 8px */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
+  .header-icon-link {
+    display: block;
+    cursor: pointer;
+  }
+  .header-icon {
+    width: 30px;
+    height: 30px;
+    display: block;
+    object-fit: contain;
+  }
+  .header-nav-buttons {
+    display: flex;
+    gap: 16px;
+    margin-left: 20px; /* 20px to the right of app_icon */
+  }
+  .nav-btn {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: normal;
+    color: #000000; /* changed color to #8E8E93 */
+    text-decoration: none;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .nav-btn:hover {
+    color: #000000; /* hover color to black */
+  }
+
+  /* ── MAIN ──────────────────────────────────────────────── */
+  main {
+    flex: 1;
+    max-width: var(--maxw);
+    width: 100%;
+    margin: 0 auto;
+    padding: 34px 28px 64px;
+  }
+
+  .doc {
+    animation: fade .4s ease both;
+  }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .doc-head { margin-bottom: 26px; }
+  .doc h1 {
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .updated {
+    margin-top: 9px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .updated strong { color: var(--ink-soft); font-weight: 700; }
+
+  .lead {
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin: 18px 0 8px;
+  }
+
+  section.block { margin-top: 28px; }
+  section.block h2 {
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 10px;
+    padding-top: 6px;
+  }
+  section.block h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 18px 0 6px;
+  }
+
+  /* Force all text in main and footer to be solid black */
+  main, main *, footer, footer * {
+    color: #000000 !important;
+  }
+  ul { margin: 6px 0 15px; padding-left: 0; list-style: none; }
+  li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 9px;
+    font-size: 15px;
+  }
+  li::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #8E8E93 !important;
+  }
+  a.link { font-weight: 700; text-decoration: underline; }
+  a.link:hover { text-decoration: none; }
+
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  /* ── DATA TABLE ────────────────────────────────────────── */
+  .table-wrap {
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 14px 0 8px;
+    background: var(--surface);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 11px 12px; vertical-align: top; }
+  thead th {
+    background: #F5F5F7;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 12.5px;
+  }
+  tbody tr { border-top: 1px solid var(--hairline); }
+  tbody td:first-child { font-weight: 700; color: var(--ink); }
+  tbody td { color: var(--muted); }
+
+  /* ── FOOTER ────────────────────────────────────────────── */
+  footer.site {
+    border-top: 1px solid var(--hairline);
+    background: var(--bg);
+  }
+  .foot-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 24px 16px 34px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .foot-links { display: flex; gap: 16px; }
+  .foot-links a {
+    font-family: var(--font); font-size: 13px; font-weight: 700;
+    color: var(--ink-soft); text-decoration: none;
+  }
+  .foot-links a:hover { color: var(--accent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+
+  @media print {
+    header.site, footer.site { position: static; }
+    nav.tabs, .foot-links { display: none; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sticky-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <a href="home_page.html" class="header-icon-link">
+        <img src="../assets/app_icon.png" class="header-icon" alt="Peak Logo" />
+      </a>
+      <div class="header-nav-buttons">
+        <a href="privacy_policy.html" class="nav-btn">Privacy</a>
+        <a href="terms_service.html" class="nav-btn">Terms</a>
+        <a href="user_deletion.html" class="nav-btn">Account</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ─────────────── MAIN CONTENT ─────────────── -->
+<main>
+
+  <!-- ============ PRIVACY POLICY ============ -->
+  <article class="doc" id="doc-privacy" role="tabpanel" aria-labelledby="tab-privacy">
+    <div class="doc-head">
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: <strong>June 6, 2026</strong></p>
+    </div>
+
+    <p class="lead">Your privacy matters to us. This Privacy Policy explains what information Peak collects, how we use and protect it, and the choices you have over your data.</p>
+    <p>Peak app is owned and operated by Peak. Peak app is an AI-powered learning and collaboration platform that guides users through structured skill development, project-based verification, and collaborative workspaces. By using the App, you agree to the practices described in this Policy.</p>
+
+    <section class="block">
+      <h2>Information We Collect</h2>
+      <p>We collect only the information needed to operate and improve the App. This falls into the following categories:</p>
+
+      <h3>Account &amp; Profile Information</h3>
+      <ul>
+        <li>Your full name, email address, and authentication credentials (created through Firebase Authentication, including email/password and Google sign-in).</li>
+        <li>Profile details you provide, such as your bio, profile picture, selected learning track, and account tier.</li>
+        <li>Onboarding status used to tailor your first-time experience.</li>
+      </ul>
+
+      <h3>Learning &amp; Progress Data</h3>
+      <ul>
+        <li>Your skill progress, current and longest learning streaks, successful-day timestamps, completed levels, and any unlocked rewards (for example, Quality Points and milestone bonuses).</li>
+      </ul>
+
+      <h3>User-Generated Content</h3>
+      <ul>
+        <li>Code submissions, practice-project answers, and responses you provide during interactive AI roleplay and simulation exercises.</li>
+        <li>Chat messages you send in private chats, group chats, and workspace project channels — including text, file attachments, images, and voice messages.</li>
+        <li>Voice recordings you create for transcription, processed as described in the AI &amp; Voice Processing section.</li>
+      </ul>
+
+      <h3>Workspace (“Company”) Data</h3>
+      <ul>
+        <li>Workspace profiles, projects, tasks, and your assigned role (Officer, Manager, or Employee).</li>
+        <li>Applications you submit to join a workspace, including any resume text and application status.</li>
+      </ul>
+
+      <h3>Financial &amp; Wallet Data</h3>
+      <ul>
+        <li>Virtual balances tied to your account, including wallet balances, demo credits, and transaction history, as well as workspace vault and demo balances.</li>
+        <li>Payment and billing metadata processed securely through Stripe. <strong>We never receive or store your raw card details on our servers.</strong></li>
+      </ul>
+
+      <h3>Communications Data</h3>
+      <ul>
+        <li>Real-time voice and video used for workspace communication is routed through the Agora real-time network and is <strong>not stored</strong> on our servers.</li>
+        <li>Push-notification tokens used to deliver chat, application, and streak-reminder notifications via Firebase Cloud Messaging.</li>
+      </ul>
+
+      <h3>Usage &amp; Analytics Data</h3>
+      <ul>
+        <li>App events such as sign-ups, logins, onboarding completion, and streak milestones, used to fix bugs and understand how features perform. Analytics tracking is subject to your consent (see Your Privacy Choices &amp; Consent).</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>How We Use Your Information</h2>
+      <ul>
+        <li>To authenticate your account and sync your profile across devices.</li>
+        <li>To deliver personalized, AI-generated learning plans and verify your project submissions.</li>
+        <li>To transcribe voice messages and generate spoken audio where applicable.</li>
+        <li>To power real-time chats, workspace collaboration, and team communication.</li>
+        <li>To track learning streaks, award rewards, and recognize milestones.</li>
+        <li>To send transactional push notifications for chats, workspace applications, and reminders.</li>
+        <li>To diagnose technical issues, maintain security, and improve the App.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>How Your Information Is Stored</h2>
+      <p><strong>Firebase Cloud Firestore</strong> is our primary database for user profiles, learning progress, chats, workspaces, applications, and notifications. Sensitive financial data (such as wallet balances and transaction history) is held in a protected subcollection secured by server-side Firebase Security Rules.</p>
+      <p><strong>Supabase</strong> stores our read-only educational curriculum (skill overviews, levels, tasks, summaries, and project options). For security, the App never connects to Supabase directly; curriculum requests are routed through a secure Firebase Cloud Function so that database access tokens are never exposed to your device.</p>
+    </section>
+
+    <section class="block">
+      <h2>AI &amp; Voice Processing</h2>
+      <p>Some features rely on third-party AI and voice services to function:</p>
+      <ul>
+        <li><strong>Google Gemini API</strong> grades your submissions, verifies skill progression, and powers interactive roleplay and simulation exercises. Your code submissions, practice answers, and roleplay messages are sent to Google for processing.</li>
+        <li><strong>Google Cloud Speech-to-Text</strong> transcribes your voice messages into text. Audio is sent securely for transcription and returned as text.</li>
+        <li><strong>Google Cloud Text-to-Speech</strong> converts text content into synthesized audio that is streamed back to you.</li>
+      </ul>
+      <div class="callout">AI evaluations may occasionally be inaccurate. AI outputs are provided to support your learning and should not be treated as professional or definitive assessments.</div>
+    </section>
+
+    <section class="block">
+      <h2>How We Share Your Information</h2>
+      <p><strong>We do not sell your personal data.</strong> To provide the App, we share data with the trusted service providers below, each acting as a data processor for the stated purpose:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Service</th><th>Purpose</th><th>Data shared</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Firebase Auth</td><td>Sign-in &amp; authentication</td><td>Email, password, Google sign-in tokens, account ID</td></tr>
+            <tr><td>Firebase / Firestore</td><td>Database &amp; storage</td><td>Profile, progress, chats, workspace &amp; wallet data</td></tr>
+            <tr><td>Supabase</td><td>Curriculum catalog</td><td>Learning-track selections (via secure cloud function)</td></tr>
+            <tr><td>Google Gemini API</td><td>AI grading &amp; roleplay</td><td>Code, practice answers, roleplay messages</td></tr>
+            <tr><td>Google Cloud STT</td><td>Voice transcription</td><td>Voice recordings (returned as text)</td></tr>
+            <tr><td>Google Cloud TTS</td><td>Speech generation</td><td>Text content (returned as audio)</td></tr>
+            <tr><td>Agora RTC</td><td>Live voice/video calls</td><td>Real-time audio/video streams (not stored)</td></tr>
+            <tr><td>Stripe</td><td>Payments &amp; credits</td><td>Billing info &amp; payment metadata (no raw card data on our servers)</td></tr>
+            <tr><td>Firebase Analytics</td><td>Usage analytics</td><td>App events (consent-based)</td></tr>
+            <tr><td>Facebook App Events</td><td>Marketing optimization</td><td>Standard mobile event attributes (consent-based)</td></tr>
+            <tr><td>TikTok SDK (Android)</td><td>Conversion measurement</td><td>Device conversion events (consent-based)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>We may also disclose information where required by law, to enforce our Terms of Service, or to protect the rights, safety, and security of our users and the App.</p>
+    </section>
+
+    <section class="block">
+      <h2>Your Privacy Choices &amp; Consent</h2>
+      <ul>
+        <li><strong>Tracking consent:</strong> Before any advertising or marketing analytics are enabled, the App asks for your permission — through Apple’s App Tracking Transparency on iOS and an equivalent consent dialog on Android.</li>
+        <li><strong>Opt out anytime:</strong> If you decline or later opt out, advertising signals to Firebase Analytics (GA4), the Facebook SDK, and the TikTok SDK are disabled. You can change your choice at any time using the tracking consent toggle in the App’s settings.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Data Retention &amp; Account Deletion</h2>
+      <p>We retain your information for as long as your account is active or as needed to provide the App. You are in control of your data:</p>
+      <ul>
+        <li><strong>Account deletion:</strong> You can permanently delete your account at any time by tapping <strong>Remove Account</strong> in Settings. This erases your Firestore profile document — including your profile details, learning streaks, and skill progress — and then removes your credentials from Firebase Authentication.</li>
+        <li><strong>Shared content:</strong> To preserve the integrity of group chats and workspace project histories, messages you sent in shared spaces may remain after deletion, but they are dissociated from your deleted profile.</li>
+        <li><strong>Opt-out:</strong> You can disable analytics tracking at any time using the consent toggle in Settings.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Data Security</h2>
+      <p>We protect your data using industry-standard safeguards, including server-side Firebase Security Rules, restricted access to sensitive financial subcollections, and routing of third-party database and AI requests through secure cloud functions so that access tokens are never exposed to your device. No method of transmission or storage is completely secure, but we work continuously to protect your information.</p>
+    </section>
+
+    <section class="block">
+      <h2>Children’s Privacy</h2>
+      <p>Peak is intended for users aged 16 and older. We do not knowingly collect personal information from children under the age threshold required in their region. If you believe a child has provided us with personal information, please contact us so we can remove it.</p>
+    </section>
+
+    <section class="block">
+      <h2>International Data Transfers</h2>
+      <p>Our service providers (including Google, Stripe, Agora, Supabase, Meta, and TikTok) may process and store data in countries other than your own. Where data is transferred internationally, it remains protected in accordance with this Policy and applicable safeguards.</p>
+    </section>
+
+    <section class="block">
+      <h2>Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. When we make material changes, we will revise the “Last updated” date above and, where appropriate, notify you within the App. Your continued use of Peak after an update means you accept the revised Policy.</p>
+    </section>
+
+    <section class="block">
+      <h2>Contact Us</h2>
+      <p>If you have questions about this Privacy Policy or your data, contact us at <a class="link" href="mailto:support@peak.com">support@peak.com</a>.</p>
+    </section>
+  </article>
+
+</main>
+
+<!-- ─────────────── FOOTER ─────────────── -->
+<footer class="site">
+  <div class="foot-inner">
+    <span>© <span id="year"></span> Peak. All rights reserved.</span>
+    <span class="foot-links">
+      <a href="privacy_policy.html">Privacy</a>
+      <a href="terms_service.html">Terms</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
