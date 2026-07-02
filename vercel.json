@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/u/:path*",
+      "destination": "https://skilllearningapp.web.app/u/:path*"
+    }
+  ]
+}
