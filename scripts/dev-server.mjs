@@ -62,9 +62,9 @@ createServer(async (req, res) => {
     }
     if (path === '/get') {
       const ua = req.headers['user-agent'] || '';
-      const to = /iPhone|iPad|iPod/.test(ua) ? 'https://apps.apple.com/app/id6758958604'
-        : /Android/.test(ua) ? 'https://play.google.com/store/apps/details?id=com.patchamp.peak'
-          : '/files/download.html';
+      // As vercel.json: Android to Google Play, everything else to the App Store.
+      const to = /Android/.test(ua) ? 'https://play.google.com/store/apps/details?id=com.patchamp.peak'
+        : 'https://apps.apple.com/us/app/peak-learn-any-skill/id6758958604';
       res.writeHead(307, { Location: to });
       return res.end();
     }

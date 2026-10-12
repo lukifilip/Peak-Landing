@@ -210,6 +210,15 @@ test('the QR hand-off: once, in the closing card, hidden from screen readers, la
   assert.match(svg, /^<svg[^>]+viewBox="0 0 37 37"/);
 });
 
+test('/get: Android to Google Play, everything else to the App Store', () => {
+  const config = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
+  const get = config.redirects.filter((r) => r.source === '/get');
+  assert.deepEqual(get.map((r) => [r.has ? r.has[0].value : null, r.destination, r.permanent]), [
+    ['.*Android.*', 'https://play.google.com/store/apps/details?id=com.patchamp.peak', false],
+    [null, 'https://apps.apple.com/us/app/peak-learn-any-skill/id6758958604', false],
+  ]);
+});
+
 // ── Search and share ───────────────────────────────────────────────────────
 
 test('only pages with something earned are indexed', () => {
