@@ -123,7 +123,7 @@ test('empty: one calm card, and the closing card explains Peak', () => {
 });
 
 test('never a zero, a dash or "None yet"', () => {
-  for (const name of ['full', 'sparse', 'learning', 'empty', 'edge']) {
+  for (const name of ['full', 'solo', 'sparse', 'learning', 'empty', 'edge']) {
     const page = render(fixture(name));
     const text = bodyOf(page).replace(/<[^>]+>/g, ' ');
     assert.ok(!/\b0 (verified )?projects?\b/i.test(text), `${name}: a zero count`);
@@ -147,6 +147,67 @@ test('Open to collaborate is never shown on the web', () => {
   }
   // Nor its note in the share description.
   assert.ok(!describe(normalizePortfolio(fixture('full'))).includes('digital marketer'));
+});
+
+// ── Wider screens (the plan's Part 2) ──────────────────────────────────────
+
+test('the identity comes first, and every section follows it in .work, in the app\'s order', () => {
+  for (const name of ['full', 'solo', 'sparse', 'learning', 'empty', 'edge']) {
+    const html = bodyOf(render(fixture(name)));
+    const main = /<main class="col portfolio" id="main">([\s\S]*)<\/main>/.exec(html);
+    assert.ok(main, `${name}: no two-pane main`);
+    assert.match(main[1], /^<section class="identity"[\s\S]*?<\/section><div class="work">/, name);
+    const work = main[1].slice(main[1].indexOf('<div class="work">'));
+    for (const id of ['featured-title', 'real-work-title', 'skills-title', 'empty-title', 'closing-title']) {
+      if (html.includes(`id="${id}"`)) assert.ok(work.includes(`id="${id}"`), `${name}: ${id} outside .work`);
+    }
+  }
+});
+
+test('spacing is a class, never an inline style', () => {
+  const html = bodyOf(render(fixture('full')));
+  assert.ok(!/class="block[^"]*" style=/.test(html));
+  const blocks = [...html.matchAll(/class="block block-([a-z-]+) gap-(\d+)"/g)].map((m) => `${m[1]}:${m[2]}`);
+  assert.deepEqual(blocks, ['featured:40', 'overview:8', 'real-work:30', 'skills:33', 'closing:40']);
+});
+
+test('Featured: the count picks the layout, and each band asks for its own width', () => {
+  const counts = Object.fromEntries(['solo', 'edge', 'full'].map((name) =>
+    [name, /class="featured" data-count="(\d)"/.exec(bodyOf(render(fixture(name), { optimizeImages: true })))[1]]));
+  assert.deepEqual(counts, { solo: '1', edge: '2', full: '3' });
+
+  const full = bodyOf(render(fixture('full'), { optimizeImages: true }));
+  const sizes = [...full.matchAll(/<a class="card feat[\s\S]*?sizes="([^"]+)"/g)].map((m) => m[1]);
+  assert.equal(sizes.length, 3);
+  assert.match(sizes[0], /^\(min-width: 1024px\) 660px/, 'the first of three is full width');
+  assert.match(sizes[1], /^\(min-width: 1024px\) 325px/, 'the others are half width');
+  assert.match(sizes[2], /^\(min-width: 1024px\) 325px/);
+});
+
+test('a company logo standing in for a picture is marked, a banner or image never is', () => {
+  const solo = bodyOf(render(fixture('solo')));
+  assert.match(solo, /<div class="band band-logo"><img[^>]+northwind-logo\.png/);
+  assert.match(solo, /<div class="band sheet-band band-logo"><img/, 'and in the project sheet');
+  const full = bodyOf(render(fixture('full')));
+  assert.ok(!full.includes('band-logo'), 'the full fixture has a project image and a banner');
+});
+
+test('the QR hand-off: once, in the closing card, hidden from screen readers, lazy', () => {
+  for (const name of ['full', 'empty']) {
+    const html = bodyOf(render(fixture(name)));
+    const qrs = html.match(/<p class="qr"[\s\S]*?<\/p>/g) || [];
+    assert.equal(qrs.length, 1, name);
+    assert.match(qrs[0], /aria-hidden="true"/);
+    assert.match(qrs[0], /src="\/assets\/portfolio\/get-qr\.svg"[^>]*loading="lazy"/);
+    assert.ok(html.indexOf('class="qr"') > html.indexOf('id="closing-title"'), `${name}: outside the closing card`);
+  }
+  for (const page of [renderUnavailablePage(), renderErrorPage('sarah')]) {
+    assert.ok(!page.includes('get-qr'), 'a message page shows the QR code');
+    assert.ok(page.includes('<main class="col message-page"'));
+  }
+  // The code itself is committed and points to /get.
+  const svg = readFileSync(new URL('../assets/portfolio/get-qr.svg', import.meta.url), 'utf8');
+  assert.match(svg, /^<svg[^>]+viewBox="0 0 37 37"/);
 });
 
 // ── Search and share ───────────────────────────────────────────────────────

@@ -355,7 +355,11 @@ function levelIcon(level, opts) {
 
 function identity(data, opts) {
   const avatarPhoto = data.avatar.url
-    ? img(data.avatar.url, { px: 160, width: 80, height: 80, eager: true, cls: 'avatar-photo', slot: 'avatar' }, opts)
+    ? img(data.avatar.url, {
+      px: 160, width: 80, height: 80, eager: true, cls: 'avatar-photo', slot: 'avatar',
+      // 80 px on phones and tablets, 112 px in the person column from 1024 px.
+      srcsetPx: [160, 256, 384], sizes: '(min-width: 1024px) 112px, 80px',
+    }, opts)
     : '';
   const [from, to] = AVATAR_GRADIENTS[data.avatar.gradient];
   const founder = data.founder
@@ -370,49 +374,69 @@ function identity(data, opts) {
     `</section>`;
 }
 
+// How wide each band is drawn, for the browser's choice of image size. On
+// phones every band is one card wide; from 768 px Featured is a grid (full or
+// half width) and the sheet a 560 px panel; from 1024 px the work column is at
+// most 660 px. See styles.css, "Medium and wide screens".
+const PHONE_BAND = '(min-width: 640px) 604px, calc(100vw - 36px)';
+const BAND_SIZES = {
+  full: `(min-width: 1024px) 660px, ${PHONE_BAND}`,
+  half: `(min-width: 1024px) 325px, (min-width: 768px) 297px, ${PHONE_BAND}`,
+  sheet: '(min-width: 768px) 524px, calc(100vw - 36px)',
+  // From 768 px a logo is drawn whole, 72 px, instead of filling the band.
+  logo: `(min-width: 768px) 72px, ${PHONE_BAND}`,
+};
+
 /** The piece's image, else its company's banner, else the company's logo,
- *  else the app's grey band with a document glyph. Never an invented colour. */
-function band(project, company, opts, { eager = false, cls = 'band' } = {}) {
+ *  else the app's grey band with a document glyph. Never an invented colour.
+ *  `layout` is the band's width on wider screens: full, half or sheet. */
+function band(project, company, opts, { eager = false, cls = 'band', layout = 'full' } = {}) {
   let url = '';
   let slot = '';
+  let logo = false;
   if (project.image) [url, slot] = [project.image, `project-${project.key}`];
   else if (company && company.banner) [url, slot] = [company.banner, `banner-${company.key}`];
-  else if (company && company.logo) [url, slot] = [company.logo, `logo-${company.key}`];
+  else if (company && company.logo) [url, slot, logo] = [company.logo, `logo-${company.key}`, true];
   const picture = url
     ? img(url, {
-      slot, px: 1200, width: 604, height: 150, eager, srcsetPx: [640, 1080, 1200],
-      sizes: '(min-width: 640px) 604px, calc(100vw - 36px)',
+      slot, px: 1200, width: 604, height: 150, eager,
+      srcsetPx: logo ? [160, 640, 1080, 1200] : layout === 'half' ? [640, 1080, 1200] : [640, 1080, 1200, 1920],
+      sizes: BAND_SIZES[logo ? 'logo' : layout],
     }, opts)
     : '';
   // The glyph marks a piece with no picture at all; a picture that fails to
   // load leaves the plain grey band.
   const glyph = picture ? '' : `<span class="band-glyph" aria-hidden="true">${ICON.doc}</span>`;
-  return `<div class="${cls}">${glyph}${picture}</div>`;
+  return `<div class="${cls}${picture && logo ? ' band-logo' : ''}">${glyph}${picture}</div>`;
 }
 
-function featuredCard(project, ctx, eager) {
+function featuredCard(project, ctx, eager, layout) {
   const company = project.company ? ctx.companies.get(project.company) : null;
   const note = project.note || project.description;
   return `<a class="card feat press" href="#project-${project.key}">` +
-    band(project, company, ctx.opts, { eager }) +
+    band(project, company, ctx.opts, { eager, layout }) +
     `<span class="feat-row"><span class="feat-text">` +
     `<span class="feat-title">${esc(project.title)}</span> ` +
     `${note ? `<span class="feat-note">${esc(note)}</span>` : ''}</span>` +
     `<span class="open-pill" aria-hidden="true">${esc(COPY.open)}</span></span></a>`;
 }
 
+/** One card, or a carousel of two or three on phones. From 768 px the
+ *  carousel is a grid of every piece: three show the owner's first pick full
+ *  width and the other two side by side, two show side by side. */
 function featured(data, ctx) {
   const items = data.featured.map((k) => ctx.projects.get(k)).filter(Boolean);
   const title = `<h2 class="section-title" id="featured-title">${esc(COPY.featured)}</h2>`;
+  const open = `<section class="featured" data-count="${items.length}" aria-labelledby="featured-title">${title}`;
   if (items.length === 1) {
-    return `<section class="featured" aria-labelledby="featured-title">${title}` +
-      `<div class="gutter">${featuredCard(items[0], ctx, true)}</div></section>`;
+    return `${open}<div class="gutter">${featuredCard(items[0], ctx, true, 'full')}</div></section>`;
   }
+  const layoutOf = (i) => (items.length === 3 && i === 0 ? 'full' : 'half');
   const slides = items.map((p, i) =>
     `<li class="slide" aria-roledescription="slide" aria-label="${esc(COPY.slideLabel(i + 1, items.length))}">` +
-    `${featuredCard(p, ctx, i === 0)}</li>`).join('');
+    `${featuredCard(p, ctx, i === 0, layoutOf(i))}</li>`).join('');
   const dots = items.map((_, i) => `<span class="pdot${i === 0 ? ' on' : ''}"></span>`).join('');
-  return `<section class="featured" aria-labelledby="featured-title">${title}` +
+  return `${open}` +
     `<div class="carousel" role="region" aria-roledescription="carousel" aria-label="${esc(COPY.carouselLabel)}">` +
     `<ul class="track" data-track>${slides}</ul>` +
     `<div class="dots" aria-hidden="true" data-dots>${dots}</div>` +
@@ -497,7 +521,21 @@ function closingCard(state, opts) {
     `<h2 class="closing-title" id="closing-title">${mark}${esc(empty ? COPY.closingTitleEmpty : COPY.closingTitle)}</h2>` +
     `<p class="closing-body">${esc(empty ? COPY.closingBodyEmpty : COPY.closingBody)}</p>` +
     `<a class="btn-primary press-btn" href="/get">${esc(COPY.getPeak)}</a>` +
-    `<p class="tagline">${esc(COPY.tagline)}</p></section>`;
+    `<p class="tagline">${esc(COPY.tagline)}</p>${handOff(opts)}</section>`;
+}
+
+/**
+ * On a computer, a QR code to /get puts the app on the visitor's phone. Shown
+ * only on wide screens with a mouse or trackpad (styles.css), in place of the
+ * tagline. Hidden from screen readers: the Get Peak link above already does
+ * the same, and stays the page's one button. The code is a static file
+ * (scripts/make-qr.mjs), loaded lazily so phones never fetch it.
+ */
+function handOff(opts) {
+  return `<p class="qr" aria-hidden="true">` +
+    `<img class="qr-code" src="${esc(`${opts.assetBase}/assets/portfolio/get-qr.svg`)}" alt="" ` +
+    'width="96" height="96" loading="lazy" decoding="async">' +
+    `<span class="qr-text">${esc(COPY.qrCaption)}</span></p>`;
 }
 
 // ── Sheets (drill-ins), as templates the page script opens ──────────────────
@@ -518,7 +556,7 @@ function projectSheet(project, ctx) {
         `<span class="link-out">${ICON.arrowUpRight}</span></a></li>`).join('') + '</ul>'
     : '';
   return `<template id="sheet-project-${project.key}">` +
-    `${hasPicture ? band(project, company, ctx.opts, { cls: 'band sheet-band' }) : ''}` +
+    `${hasPicture ? band(project, company, ctx.opts, { cls: 'band sheet-band', layout: 'sheet' }) : ''}` +
     `<h2 class="sheet-title" tabindex="-1">${esc(project.title)}</h2>` +
     `<p class="verified-line"><span class="seal-sm">${ICON.seal}</span>${esc(verifiedLine)}</p>` +
     `${project.description
@@ -658,26 +696,27 @@ export function renderPortfolioPage(raw, options = {}) {
   const push = (kind, html) => blocks.push({ kind, html });
   if (data.featured.length > 0) push('featured', featured(data, ctx));
   if (data.verifiedCount > 0) push('overview', overview(data, opts));
-  if (data.companies.length > 0) push('realWork', realWork(data, opts));
+  if (data.companies.length > 0) push('real-work', realWork(data, opts));
   if (data.skills) push('skills', skills(data, opts));
   if (data.state === 'empty' && !data.skills && data.companies.length === 0 && data.verifiedCount === 0) {
     push('empty', emptyCard(data));
   }
   push('closing', closingCard(data.state, opts));
 
-  // Spacing between blocks, as PortfolioView's `content` lays them out.
+  // Spacing between blocks, as PortfolioView's `content` lays them out. A
+  // class rather than an inline style, so wider screens can adjust it.
   const gapBefore = (prev, kind) => {
     if (!prev) return 40;
     if (kind === 'overview' && prev === 'featured') return 8;
-    if (kind === 'realWork') return prev === 'featured' ? 8 : 30;
+    if (kind === 'real-work') return prev === 'featured' ? 8 : 30;
     // The app pads each company row 8 below, then 25 before Expertise.
-    if (kind === 'skills') return prev === 'realWork' ? 33 : 30;
+    if (kind === 'skills') return prev === 'real-work' ? 33 : 30;
     if (kind === 'closing') return 40;
     return 30;
   };
   let prev = null;
-  const main = blocks.map((b) => {
-    const html = `<div class="block" style="margin-top:${gapBefore(prev, b.kind)}px">${b.html}</div>`;
+  const work = blocks.map((b) => {
+    const html = `<div class="block block-${b.kind} gap-${gapBefore(prev, b.kind)}">${b.html}</div>`;
     prev = b.kind;
     return html;
   }).join('');
@@ -701,8 +740,11 @@ export function renderPortfolioPage(raw, options = {}) {
     appArgument: canonical,
     ogType: 'profile',
     withScript: true,
+    // From 1024 px `.portfolio` is two panes: the identity on the leading
+    // side, `.work` on the trailing side. The DOM order is the app's order,
+    // so reading and Tab order match what is seen at every width.
     body: topBar(data.name, opts) +
-      `<main class="col" id="main">${identity(data, opts)}${main}</main>` +
+      `<main class="col portfolio" id="main">${identity(data, opts)}<div class="work">${work}</div></main>` +
       footer(data.handle) + sheets,
   }, opts);
 }
@@ -720,7 +762,7 @@ function messagePage({ title, body, actions, handle }, options) {
     ogType: 'website',
     withScript: false,
     body: topBar('', opts) +
-      `<main class="col" id="main"><section class="card message gutter-card" aria-labelledby="message-title">` +
+      `<main class="col message-page" id="main"><section class="card message gutter-card" aria-labelledby="message-title">` +
       `<h1 class="message-title" id="message-title">${esc(title)}</h1>` +
       `<p class="message-body">${esc(body)}</p>${actions}</section></main>` +
       footer(handle),

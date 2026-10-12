@@ -2,8 +2,8 @@
 // /get redirect, a pass-through /_vercel/image, and static files.
 //   node scripts/dev-server.mjs            → http://localhost:3000
 //   PEAK_RENDER_KEY=… node scripts/dev-server.mjs   to render real handles
-// Fixtures: http://localhost:3000/preview/portfolio/full (sparse, learning,
-// empty, edge, unavailable, error).
+// Fixtures: http://localhost:3000/preview/portfolio/full (solo, sparse,
+// learning, empty, edge, unavailable, error).
 
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';

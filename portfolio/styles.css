@@ -1,6 +1,8 @@
 /* Peak public portfolio. Tokens are the app's colour sets (Assets.xcassets),
    AppColors.swift, PeakSectionTitle.swift and PortfolioTokens; see
-   PORTFOLIO_REDESIGN_PLAN.md §3. Mobile first, one centred column. */
+   PORTFOLIO_REDESIGN_PLAN.md §3. Mobile first: one centred column on phones;
+   from 768 px Featured is a grid, from 1024 px the page is two panes (the
+   plan's Part 2, "Medium and wide screens" below). */
 
 :root {
   color-scheme: light dark;
@@ -19,9 +21,20 @@
   --divider: rgb(142 142 147 / 0.27);
   --skeleton: #E0E0E0;
   --scrim: rgb(0 0 0 / 0.38);
+  /* Hover, on pointer devices: the style guide's one soft shadow. */
+  --card-hover: #FFFFFF;
+  --card-hover-shadow: 0 1px 16px 1px rgb(0 0 0 / 0.06);
+  --row-hover: rgb(142 142 147 / 0.08);
   --gutter: 18px;
   --radius: 25px;
   --bar-h: 52px;
+  /* Wider screens: a taller band where it is wider than a phone card, and
+     the two-pane page from 1024 px. */
+  --band-tall: 220px;
+  --page-max: 1080px;
+  --page-pad: 32px;
+  --rail: 300px;
+  --pane-gap: 56px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --sheet-ease: cubic-bezier(0.32, 0.72, 0, 1);
 }
@@ -42,6 +55,11 @@
     --divider: rgb(174 174 178 / 0.27);
     --skeleton: #2C2C2E;
     --scrim: rgb(0 0 0 / 0.55);
+    /* web-only: a shadow is invisible on black, so the card lightens instead,
+       short of the Open pill's #2C2C2E so the pill stays distinct. */
+    --card-hover: #232325;
+    --card-hover-shadow: none;
+    --row-hover: rgb(174 174 178 / 0.10);
   }
 }
 
@@ -52,6 +70,9 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   background: var(--bg);
+  /* Keeps the scrollbar's space while a sheet locks the page, so the page
+     doesn't shift sideways where scrollbars take up room. */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -105,6 +126,12 @@ img { display: block; }
   background: var(--card);
   border-radius: var(--radius);
 }
+
+/* Space before each block, as PortfolioView's `content` lays them out. */
+.gap-8 { margin-top: 8px; }
+.gap-30 { margin-top: 30px; }
+.gap-33 { margin-top: 33px; }
+.gap-40 { margin-top: 40px; }
 
 /* ── Top bar ────────────────────────────────────────────────────────────── */
 
@@ -591,6 +618,8 @@ img { display: block; }
   font-size: 0.8125rem;
   color: var(--text-2);
 }
+/* The QR hand-off: wide screens with a pointer only (below). */
+.qr { display: none; }
 .text-link {
   display: inline-flex;
   align-items: center;
@@ -776,17 +805,145 @@ html:has(dialog[open]) { overflow: hidden; }
   .sheet-bar { padding-top: 10px; }
 }
 
+/* ── Medium and wide screens ────────────────────────────────────────────── */
+/* PORTFOLIO_REDESIGN_PLAN.md, Part 2. Same sections, order and components as
+   the phone; only the arrangement changes. Phones (under 768 px) never reach
+   these rules. */
+
+@media (min-width: 768px) {
+  /* Featured shows every piece at once, on the same two columns and gap as
+     the Overview tiles beneath: three show the owner's first pick full
+     width, then the other two; two sit side by side. */
+  .featured .carousel { margin-inline: var(--gutter); }
+  .featured .track {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    overflow: visible;
+    padding-inline: 0;
+    scroll-snap-type: none;
+  }
+  .featured[data-count="3"] .slide:first-child { grid-column: 1 / -1; }
+  /* Cards side by side end on one line, with or without a note. */
+  .featured .slide { display: flex; }
+  .featured .slide > .feat { flex: 1; display: flex; flex-direction: column; }
+  .featured .slide .feat-row { flex: 1; }
+  .featured .carousel .dots,
+  .js .featured .carousel .nav { display: none; }
+  .block-featured + .block-overview { margin-top: 10px; }
+
+  /* A band wider than a phone card grows, so its picture keeps the phone's
+     proportions instead of becoming a thin strip. */
+  .featured[data-count="1"] .band,
+  .featured[data-count="3"] .slide:first-child .band,
+  .sheet-band { height: var(--band-tall); }
+
+  /* A company logo standing in for a picture is drawn whole: cropped to fill
+     a wide band, only its middle would show, enlarged past its resolution. */
+  .band-logo img {
+    position: static;
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+  }
+
+  /* The unavailable and error card, centred in the window. */
+  .message-page {
+    display: grid;
+    align-content: center;
+    min-height: calc(100vh - var(--bar-h) - 76px); /* 76: the footer */
+    padding-bottom: 0;
+  }
+  .message-page .message { margin-top: 0; }
+}
+
+@media (min-width: 1024px) {
+  /* Two panes: the person on the leading side, their work on the trailing
+     side, in a page at most 1080 px wide. */
+  .bar-inner { max-width: var(--page-max); padding-inline: var(--page-pad); }
+  .portfolio {
+    max-width: var(--page-max);
+    padding: 0 var(--page-pad) 64px;
+    display: grid;
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    column-gap: var(--pane-gap);
+    align-items: start;
+  }
+  /* The photo and the first section title share a top edge. */
+  .portfolio .identity { padding: 40px 0 0; }
+  .portfolio .work .gutter,
+  .portfolio .work .gutter-card,
+  .portfolio .featured .carousel,
+  .portfolio .skill-list { margin-inline: 0; }
+  .portfolio .section-title { margin-inline: 17px 0; }
+  .portfolio ~ .footer {
+    max-width: var(--page-max);
+    margin-inline: auto;
+    padding-inline: calc(var(--page-pad) + var(--rail) + var(--pane-gap)) var(--page-pad);
+  }
+
+  /* The identity is the page's anchor, seen from further away. */
+  .portfolio .avatar-wrap,
+  .portfolio .avatar { width: 112px; height: 112px; }
+  .portfolio .initials { font-size: 42.5px; } /* 38%, as the app */
+  .portfolio .founder { width: 40px; height: 40px; }
+  .portfolio .founder .glyph { width: 23px; height: 23px; }
+  .portfolio .name { margin-top: 14px; padding: 8px 18px; font-size: 1.0625rem; }
+  .portfolio .headline {
+    padding-inline: 0;
+    font-size: 1.0625rem;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+  }
+
+  /* The person is always in view, so the bar keeps its wordmark. */
+  .bar-name { display: none; }
+  .bar.named .brand span { opacity: 1; }
+}
+
+/* The person stays in view while the work scrolls, when the window is tall
+   enough to show all of them. */
+@media (min-width: 1024px) and (min-height: 600px) {
+  .portfolio .identity {
+    position: sticky;
+    top: calc(var(--bar-h) + env(safe-area-inset-top));
+  }
+}
+
+/* Peak is a phone app: on a computer, a QR code to /get takes the place of
+   the tagline. Black on white in both modes, so every camera reads it. */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .closing .tagline { display: none; }
+  .qr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .qr-code { flex: none; width: 96px; height: 96px; border-radius: 12px; }
+  .qr-text {
+    max-width: 10em;
+    text-align: start;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    color: var(--text-2);
+  }
+}
+
 /* ── Images and motion ──────────────────────────────────────────────────── */
 
 .js img.fade { opacity: 0; transition: opacity 0.2s ease; }
 .js img.fade.loaded { opacity: 1; }
 
-@media (hover: hover) {
-  a.card.press:hover { filter: brightness(0.985); }
+/* Hover only where something opens, and quietly. */
+@media (hover: hover) and (pointer: fine) {
+  a.card.press:hover { background-color: var(--card-hover); box-shadow: var(--card-hover-shadow); }
+  .mini-row:hover, .link-row:hover { background-color: var(--row-hover); }
 }
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
-  .press { transition: transform 0.18s var(--ease-out); }
+  .press { transition: transform 0.18s var(--ease-out), background-color 0.2s ease, box-shadow 0.2s ease; }
   .press:active { transform: scale(0.98); }
   .press-btn { transition: transform 0.18s var(--ease-out); }
   .press-btn:active { transform: scale(0.97); }
@@ -798,6 +955,38 @@ html:has(dialog[open]) { overflow: hidden; }
 }
 
 @media print {
-  .bar, .footer, .sheet, .nav, .dots, .view-all { display: none !important; }
-  .js .skill-list .skill-row.extra { display: flex; }
+  /* Paper is white: light colours even when the screen is dark. */
+  :root {
+    color-scheme: light;
+    --bg: #FFFFFF;
+    --card: #FFFFFF;
+    --pill: #F5F5F7;
+    --text: #000000;
+    --text-2: #6E6E73;
+    --glyph-2: #8E8E93;
+    --blue: #007AFF;
+    --green: #34C759;
+    --green-text: #1E7B34;
+    --seal-tile: #4FDB66;
+    --divider: rgb(142 142 147 / 0.27);
+  }
+  .bar, .footer, .sheet, .nav, .dots, .view-all, .qr { display: none !important; }
+  /* Every skill, past the four View All would show. */
+  .js .skill-list:not(.expanded) .skill-row.extra { display: flex; }
+  .js img.fade { opacity: 1; }
+  .section-title { break-after: avoid; }
+  /* One column at any paper width, every featured piece, and cards that keep
+     their shape (browsers drop background colours when printing). */
+  .portfolio { display: block; max-width: 640px; padding: 0; }
+  .portfolio .identity { position: static; }
+  .featured .carousel { margin-inline: var(--gutter); }
+  .featured .track {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    overflow: visible;
+    padding-inline: 0;
+  }
+  .featured[data-count="3"] .slide:first-child { grid-column: 1 / -1; }
+  .card { border: 1px solid #D2D2D7; box-shadow: none !important; break-inside: avoid; }
 }

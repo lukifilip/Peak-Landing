@@ -1,0 +1,43 @@
+{
+  "v": 1,
+  "handle": "noah",
+  "state": "full",
+  "name": "Noah Peeters",
+  "headline": "Data analyst who turns messy spreadsheets into clear decisions",
+  "avatar": { "url": null, "gradient": 1 },
+  "founder": false,
+  "collab": null,
+  "featured": ["5e6f7a8b9c"],
+  "projects": [
+    {
+      "key": "5e6f7a8b9c",
+      "title": "Monthly Sales Dashboard",
+      "description": "Build one dashboard the sales team can open every Monday: revenue by region, the ten best-selling products, and how this month compares with last year.",
+      "note": "Built it in Looker Studio on top of the order exports, with a short guide for the team. It replaced three spreadsheets that were updated by hand.",
+      "image": null,
+      "company": "7c8d9e0f1a",
+      "month": "2026-05",
+      "deliverables": []
+    }
+  ],
+  "companies": [
+    {
+      "key": "7c8d9e0f1a",
+      "name": "Northwind",
+      "logo": "/assets/portfolio/fixtures/northwind-logo.png",
+      "banner": null,
+      "caption": "Employee since 2025",
+      "current": true,
+      "verifiedCount": 1
+    }
+  ],
+  "skills": {
+    "title": "Expertise",
+    "items": [
+      { "id": "13", "name": "Data Analysis", "icon": "data_analysis", "color": "#32CFF3", "level": 3, "standing": "Certified Advanced" },
+      { "id": "14", "name": "Excel & Spreadsheets", "icon": "excel_spreadsheets", "color": "#4ADD63", "level": 1, "standing": "Certified Beginner" }
+    ]
+  },
+  "lead": "13",
+  "verifiedCount": 1
+}

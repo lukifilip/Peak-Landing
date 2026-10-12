@@ -60,6 +60,7 @@ export const COPY = {
     'challenges, and prove them with real projects for real companies.',
   getPeak: 'Get Peak',
   tagline: 'Learn a skill. Prove it with real work.',
+  qrCaption: 'Scan with your phone to get Peak',
 
   // Footer
   privacy: 'Privacy',

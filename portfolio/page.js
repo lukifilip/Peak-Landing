@@ -58,12 +58,24 @@
   });
 
   // ── Featured carousel: dots follow the scroll; arrows on hover ──
+  // From 768 px the CSS lays the pieces out as a grid, so they are announced
+  // as a plain list there, and as a carousel of slides only below it.
+  const grid = window.matchMedia('(min-width: 768px)');
   doc.querySelectorAll('.carousel').forEach((carousel) => {
     const track = carousel.querySelector('[data-track]');
     const dots = [...carousel.querySelectorAll('.pdot')];
     const slides = [...track.children];
     const prev = carousel.querySelector('[data-nav="-1"]');
     const next = carousel.querySelector('[data-nav="1"]');
+    const describe = () => {
+      const role = (el, name) => (grid.matches
+        ? el.removeAttribute('aria-roledescription')
+        : el.setAttribute('aria-roledescription', name));
+      role(carousel, 'carousel');
+      slides.forEach((slide) => role(slide, 'slide'));
+    };
+    describe();
+    grid.addEventListener('change', describe);
     const step = () => (slides[1] ? slides[1].offsetLeft - slides[0].offsetLeft : track.clientWidth);
     const current = () => Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / step())));
     let frame = 0;

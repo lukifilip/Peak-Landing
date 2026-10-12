@@ -120,7 +120,7 @@ export async function portfolioPage({ rawHandle, trailingSlash = false, env, hos
 
 // ── Fixtures (previews and local only) ─────────────────────────────────────
 
-export const FIXTURE_NAMES = ['full', 'sparse', 'learning', 'empty', 'edge'];
+export const FIXTURE_NAMES = ['full', 'solo', 'sparse', 'learning', 'empty', 'edge'];
 
 export function readFixture(name) {
   if (!FIXTURE_NAMES.includes(name)) return null;
