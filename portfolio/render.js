@@ -205,13 +205,18 @@ export function normalizePortfolio(raw) {
     skills: skillItems.length > 0 ? { title: skillsTitle, items: skillItems } : null,
     lead: typeof raw.lead === 'string' ? raw.lead : null,
     verifiedCount: projects.length,
+    // The owner's choice in the app (Edit portfolio → Web portfolio). Only an
+    // explicit false keeps search engines away; older answers carry nothing.
+    searchAllowed: raw.search !== false,
   };
 }
 
 // ── Derived facts ───────────────────────────────────────────────────────────
 
-/** Only pages with something earned on them are offered to search engines. */
+/** Only pages with something earned on them are offered to search engines,
+ *  and never when the owner has said no. */
 export function isIndexable(data) {
+  if (data.searchAllowed === false) return false;
   const certified = data.skills && data.skills.items.some((s) => s.level != null);
   return Boolean(certified) || data.verifiedCount > 0;
 }

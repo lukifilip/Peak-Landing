@@ -235,6 +235,16 @@ test('only pages with something earned are indexed', () => {
   assert.match(render(fixture('full'), { noindex: true }), /content="noindex, follow"/);
 });
 
+test('the owner can keep an earned page out of search engines', () => {
+  const full = fixture('full');
+  assert.equal(isIndexable(normalizePortfolio({ ...full, search: true })), true);
+  assert.equal(isIndexable(normalizePortfolio({ ...full, search: false })), false);
+  assert.match(render({ ...full, search: false }), /<meta name="robots" content="noindex, follow">/);
+  // Answers from before the setting carry no field: earned pages stay indexed.
+  const { search, ...older } = full;
+  assert.equal(isIndexable(normalizePortfolio(older)), true);
+});
+
 test('share tags: title, description, large image, canonical, app banner', () => {
   const html = render(fixture('full'), { origin: 'https://www.peakofficial.app' });
   assert.match(html, /<title>Sarah Lindqvist on Peak<\/title>/);
