@@ -185,13 +185,6 @@ export function normalizePortfolio(raw) {
     };
   }).filter(Boolean);
 
-  const collab = raw.collab && typeof raw.collab === 'object'
-    ? {
-      note: text(raw.collab.note, 120),
-      skills: list(raw.collab.skills).map(skillItem).filter(Boolean).slice(0, 3),
-    }
-    : null;
-
   const skillsTitle = raw.skills && raw.skills.title === COPY.learning ? COPY.learning : COPY.expertise;
   const skillItems = raw.skills && typeof raw.skills === 'object'
     ? list(raw.skills.items).map(skillItem).filter(Boolean)
@@ -208,7 +201,6 @@ export function normalizePortfolio(raw) {
     headline: text(raw.headline, 120) || 'Building a verified portfolio',
     avatar: { url: safeUrl(raw.avatar && raw.avatar.url), gradient },
     founder: raw.founder === true,
-    collab,
     featured: list(raw.featured).filter((k) => projectKeys.has(k)).slice(0, 3),
     projects,
     companies,
@@ -348,22 +340,6 @@ function identity(data, opts) {
     `<h1 class="name" id="person-name">${esc(data.name)}</h1>` +
     `<p class="headline">${esc(data.headline)}</p>` +
     `</section>`;
-}
-
-/** Open to collaborate, as the app's PortfolioLookingForRow. */
-function collab(data, opts) {
-  const c = data.collab;
-  const status = `<span class="collab-status"><span class="dot" aria-hidden="true"></span>${esc(COPY.collabStatus)}</span>`;
-  if (!c.note && c.skills.length === 0) {
-    return `<p class="collab-pill">${status}</p>`;
-  }
-  const skills = c.skills.length > 0
-    ? `<p class="collab-skills"><span class="collab-glyphs" aria-hidden="true">` +
-      c.skills.map((s) => skillGlyph(s, 20, opts, 'collab-glyph')).join('') +
-      `</span><span>${esc(COPY.lookingFor(c.skills.map((s) => s.name)))}</span></p>`
-    : '';
-  return `<section class="card collab" aria-label="${esc(COPY.collabStatus)}">${status}` +
-    `${c.note ? `<p class="collab-note">${esc(c.note)}</p>` : ''}${skills}</section>`;
 }
 
 /** The piece's image, else its company's banner, else the company's logo,
@@ -629,8 +605,12 @@ const DEFAULT_OPTS = {
 /**
  * The portfolio page. Sections in the app's order, each only when it has
  * something true to say:
- *   identity → Open to collaborate → Featured → Overview → Real Work →
- *   Expertise / Learning → ("Just getting started" when empty) → closing card
+ *   identity → Featured → Overview → Real Work → Expertise / Learning →
+ *   ("Just getting started" when empty) → closing card
+ *
+ * The app's Open to collaborate card is left out on purpose (Lukas,
+ * 2026-10-12): it is an in-app tool for finding people to work with, not part
+ * of a public portfolio. The payload's `collab` field is ignored.
  */
 export function renderPortfolioPage(raw, options = {}) {
   const opts = { ...DEFAULT_OPTS, ...options };
@@ -644,7 +624,6 @@ export function renderPortfolioPage(raw, options = {}) {
 
   const blocks = [];
   const push = (kind, html) => blocks.push({ kind, html });
-  if (data.collab) push('collab', collab(data, opts));
   if (data.featured.length > 0) push('featured', featured(data, ctx));
   if (data.verifiedCount > 0) push('overview', overview(data, opts));
   if (data.companies.length > 0) push('realWork', realWork(data, opts));
@@ -656,8 +635,7 @@ export function renderPortfolioPage(raw, options = {}) {
 
   // Spacing between blocks, as PortfolioView's `content` lays them out.
   const gapBefore = (prev, kind) => {
-    if (kind === 'collab') return 24;
-    if (!prev || prev === 'collab') return prev === 'collab' ? 30 : 40;
+    if (!prev) return 40;
     if (kind === 'overview' && prev === 'featured') return 8;
     if (kind === 'realWork') return prev === 'featured' ? 8 : 30;
     // The app pads each company row 8 below, then 25 before Expertise.

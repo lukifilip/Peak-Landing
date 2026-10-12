@@ -82,7 +82,7 @@ test('the page allows only its own two scripts', () => {
 
 test('full: every section, in the app\'s order', () => {
   const html = bodyOf(render(fixture('full')));
-  const order = ['person-name', 'Open to collaborate', 'featured-title', 'Verified work',
+  const order = ['person-name', 'featured-title', 'Verified work',
     'real-work-title', 'skills-title', 'closing-title'].map((s) => html.indexOf(s));
   assert.ok(order.every((i) => i > 0), JSON.stringify(order));
   assert.deepEqual([...order].sort((a, b) => a - b), order);
@@ -140,10 +140,13 @@ test('Overview without a certification: Verified work alone, full width', () => 
   assert.ok(!html.includes('href="#expertise"'));
 });
 
-test('Open to collaborate with no note and no skills is the small pill', () => {
-  const html = bodyOf(render(fixture('edge')));
-  assert.ok(html.includes('class="collab-pill"'));
-  assert.ok(!html.includes('class="card collab"'));
+test('Open to collaborate is never shown on the web', () => {
+  for (const name of ['full', 'learning', 'edge']) {
+    const html = bodyOf(render(fixture(name)));
+    assert.ok(!/Open to collaborate|Looking for|collab/.test(html), name);
+  }
+  // Nor its note in the share description.
+  assert.ok(!describe(normalizePortfolio(fixture('full'))).includes('digital marketer'));
 });
 
 // ── Search and share ───────────────────────────────────────────────────────

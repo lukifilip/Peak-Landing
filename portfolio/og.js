@@ -24,7 +24,7 @@ const FONTS = [
 
 const C = {
   bg: '#F5F5F7', card: '#FFFFFF', pill: '#F5F5F7', text: '#000000', text2: '#6E6E73',
-  green: '#34C759', greenText: '#248A3D', blue: '#007AFF',
+  green: '#34C759', greenText: '#1E7B34', blue: '#007AFF',
 };
 
 /** A Satori element. */

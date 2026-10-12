@@ -9,10 +9,6 @@ export const COPY = {
   skipLink: 'Skip to content',
   founder: 'Founder',
 
-  // Open to collaborate (PortfolioLookingForRow)
-  collabStatus: 'Open to collaborate',
-  lookingFor: (names) => `Looking for ${listNames(names)}`,
-
   // Section titles (as in the app)
   featured: 'Featured',
   realWork: 'Real Work',
