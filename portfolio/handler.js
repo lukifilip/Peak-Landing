@@ -5,8 +5,8 @@
 
 import { readFileSync } from 'node:fs';
 import {
-  CONTENT_SECURITY_POLICY, SITE, isValidHandle, normalizePortfolio,
-  renderErrorPage, renderPortfolioPage, renderUnavailablePage,
+  CONTENT_SECURITY_POLICY, SITE, imageVersion, isImageSlot, isValidHandle, normalizePortfolio,
+  renderErrorPage, renderPortfolioPage, renderUnavailablePage, resolveImageSlot,
 } from './render.js';
 
 export const DEFAULT_SOURCE_URL =
@@ -203,5 +203,74 @@ export async function shareImage({ rawHandle, fixture, env, fetchImpl = fetch, l
   } catch (err) {
     log.error(`[portfolio-og] render failed: ${err.message}`);
     return png(200, fallbackImage(), CACHE.unavailable);
+  }
+}
+
+// ── Images by slot ─────────────────────────────────────────────────────────
+
+const IMAGE_TIMEOUT_MS = 5000;
+const IMAGE_MAX_BYTES = 8 * 1024 * 1024;
+const IMAGE_TYPES = /^image\/(png|jpe?g|webp|gif|avif)$/;
+
+const imageHeaders = {
+  'X-Content-Type-Options': 'nosniff',
+  'Content-Security-Policy': "default-src 'none'; sandbox",
+  'Cross-Origin-Resource-Policy': 'same-origin',
+};
+const notFound = () => ({
+  status: 404,
+  headers: { 'Content-Type': 'text/plain; charset=utf-8', ...imageHeaders, ...CACHE.unavailable },
+  body: 'Not found',
+});
+
+/**
+ * GET /u/<handle>/image/<slot>/<version>: one image of a portfolio, looked up
+ * server-side so the page never shows a stored URL (a Firebase Storage photo
+ * URL carries the uid). Only slots the JSON names resolve, so this is no open
+ * proxy, and a hidden company or a deleted account stops resolving. Kept at
+ * the edge for an hour, then refreshed in the background.
+ */
+export async function portfolioImage({ rawHandle, slot, version, env, fetchImpl = fetch, log = console }) {
+  const { handle, redirect } = canonicalHandle(rawHandle, false);
+  if (!handle || redirect || !isImageSlot(slot)) return notFound();
+
+  const result = await fetchPortfolio(handle, { env, fetchImpl });
+  if (result.kind === 'unavailable') return notFound();
+  if (result.kind === 'error') {
+    log.error(`[portfolio-image] /u/${handle}: ${result.reason}`);
+    return { status: 503, headers: { 'Content-Type': 'text/plain', ...imageHeaders, ...CACHE.never }, body: 'Unavailable' };
+  }
+  const source = resolveImageSlot(normalizePortfolio(result.data), slot);
+  if (!/^https:\/\//.test(source)) return notFound();
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), IMAGE_TIMEOUT_MS);
+  try {
+    const upstream = await fetchImpl(source, { signal: controller.signal });
+    const type = (upstream.headers.get('content-type') || '').split(';')[0].trim().toLowerCase();
+    if (!upstream.ok || !IMAGE_TYPES.test(type)) return notFound();
+    const body = Buffer.from(await upstream.arrayBuffer());
+    if (body.length > IMAGE_MAX_BYTES) return notFound();
+    // The current version may be cached as long as it is current; an old
+    // version (a page cached before the photo changed) gets the new image
+    // briefly.
+    const current = version === imageVersion(source);
+    return {
+      status: 200,
+      headers: {
+        'Content-Type': type,
+        ...imageHeaders,
+        'Cache-Control': current ? 'public, max-age=86400' : 'public, max-age=300',
+        'Vercel-CDN-Cache-Control': current
+          ? 'public, s-maxage=3600, stale-while-revalidate=86400'
+          : 'public, s-maxage=300',
+      },
+      body,
+    };
+  } catch (err) {
+    log.error(`[portfolio-image] /u/${handle}/${slot}: ${err.message}`);
+    return notFound();
+  } finally {
+    clearTimeout(timer);
   }
 }

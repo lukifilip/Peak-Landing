@@ -9,7 +9,7 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { fixturePage, portfolioPage, shareImage } from '../portfolio/handler.js';
+import { fixturePage, portfolioImage, portfolioPage, shareImage } from '../portfolio/handler.js';
 import { send } from '../portfolio/http.js';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -45,6 +45,9 @@ createServer(async (req, res) => {
   const host = req.headers.host;
   let m;
   try {
+    if ((m = /^\/u\/([^/]+)\/image\/([^/]+)\/([^/]+)$/.exec(path))) {
+      return send(res, await portfolioImage({ rawHandle: m[1], slot: m[2], version: m[3], env }), req.method);
+    }
     if ((m = /^\/u\/([^/]+)\/og\.png$/.exec(path))) {
       return send(res, await shareImage({ rawHandle: m[1], env }), req.method);
     }

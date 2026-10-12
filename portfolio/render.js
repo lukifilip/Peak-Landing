@@ -55,8 +55,6 @@ export const SKILL_ICON_FILES = new Set([
   'seo', 'ux_ui_design',
 ]);
 
-/** Hosts whose images go through Vercel's optimizer (allow-listed in vercel.json). */
-const OPTIMIZED_HOSTS = new Set(['firebasestorage.googleapis.com']);
 /** Must match `images.sizes` in vercel.json. */
 export const IMAGE_SIZES = [64, 96, 128, 160, 256, 384, 640, 750, 828, 1080, 1200, 1920];
 
@@ -275,18 +273,47 @@ function nearestSize(px) {
   return IMAGE_SIZES.find((s) => s >= px) || IMAGE_SIZES[IMAGE_SIZES.length - 1];
 }
 
-/** The URL to load: through Vercel's optimizer at a listed size when the
- *  source allows it, else as given; site assets get the page's asset base. */
-function imageSrc(url, px, opts) {
-  const local = url.startsWith('/assets/');
-  let host = '';
-  if (!local) {
-    try { host = new URL(url).hostname; } catch (_) { return ''; }
-  }
-  if (opts.optimizeImages && (local || OPTIMIZED_HOSTS.has(host))) {
-    return `/_vercel/image?url=${encodeURIComponent(url)}&w=${nearestSize(px)}&q=75`;
-  }
-  return local ? `${opts.assetBase}${url}` : url;
+// ── Image slots ─────────────────────────────────────────────────────────────
+//
+// A person's photo, a company's logo and banner and a project's image are
+// stored URLs, and a Firebase Storage URL carries its path: a profile photo
+// lives at `profile_pictures/<uid>`. So the page never writes a stored image
+// URL. It writes `/u/<handle>/image/<slot>/<version>`, which the server
+// resolves from the same JSON (`portfolioImage` in handler.js). The version is
+// a hash of the stored URL, so a new photo gets a new address.
+
+const SLOT_PATTERN = /^(avatar|logo-[0-9a-f]{6,32}|banner-[0-9a-f]{6,32}|project-[0-9a-f]{6,32})$/;
+export const isImageSlot = (slot) => typeof slot === 'string' && SLOT_PATTERN.test(slot);
+
+/** A short, stable version for a stored image URL. */
+export function imageVersion(url) {
+  return createHash('sha256').update(String(url)).digest('hex').slice(0, 10);
+}
+
+/** The stored URL behind one slot of a (normalized) portfolio, or ''. */
+export function resolveImageSlot(data, slot) {
+  if (!isImageSlot(slot)) return '';
+  if (slot === 'avatar') return data.avatar.url;
+  const [kind, key] = [slot.slice(0, slot.indexOf('-')), slot.slice(slot.indexOf('-') + 1)];
+  if (kind === 'project') return (data.projects.find((p) => p.key === key) || {}).image || '';
+  const company = data.companies.find((c) => c.key === key) || {};
+  return (kind === 'logo' ? company.logo : company.banner) || '';
+}
+
+/** Where the page loads an image from: this site's own path (an asset, or a
+ *  slot), through Vercel's optimizer at a listed size when that is on. A
+ *  stored URL without a slot is never written. */
+function imagePath(url, slot, opts) {
+  if (url.startsWith('/assets/')) return url;
+  if (slot && opts.handle) return `/u/${opts.handle}/image/${slot}/${imageVersion(url)}`;
+  return '';
+}
+
+function imageSrc(url, px, opts, slot) {
+  const path = imagePath(url, slot, opts);
+  if (!path) return '';
+  if (opts.optimizeImages) return `/_vercel/image?url=${encodeURIComponent(path)}&w=${nearestSize(px)}&q=75`;
+  return path.startsWith('/assets/') ? `${opts.assetBase}${path}` : path;
 }
 
 /**
@@ -294,12 +321,13 @@ function imageSrc(url, px, opts) {
  * script fall back to the source when the optimizer fails, then remove the
  * image (uncovering the placeholder) if that fails too.
  */
-function img(url, { px, width, height, cls = '', eager = false, srcsetPx, sizes }, opts) {
-  const src = imageSrc(url, px, opts);
+function img(url, { px, width, height, cls = '', eager = false, srcsetPx, sizes, slot }, opts) {
+  const src = imageSrc(url, px, opts, slot);
   if (!src) return '';
-  const original = url.startsWith('/assets/') ? `${opts.assetBase}${url}` : url;
+  const path = imagePath(url, slot, opts);
+  const original = path.startsWith('/assets/') ? `${opts.assetBase}${path}` : path;
   const srcset = srcsetPx && opts.optimizeImages && src.startsWith('/_vercel/')
-    ? ` srcset="${srcsetPx.map((w) => `${esc(imageSrc(url, w, opts))} ${nearestSize(w)}w`).join(', ')}"` +
+    ? ` srcset="${srcsetPx.map((w) => `${esc(imageSrc(url, w, opts, slot))} ${nearestSize(w)}w`).join(', ')}"` +
       (sizes ? ` sizes="${esc(sizes)}"` : '')
     : '';
   return `<img class="fade${cls ? ` ${cls}` : ''}" src="${esc(src)}"${srcset}` +
@@ -327,7 +355,7 @@ function levelIcon(level, opts) {
 
 function identity(data, opts) {
   const avatarPhoto = data.avatar.url
-    ? img(data.avatar.url, { px: 160, width: 80, height: 80, eager: true, cls: 'avatar-photo' }, opts)
+    ? img(data.avatar.url, { px: 160, width: 80, height: 80, eager: true, cls: 'avatar-photo', slot: 'avatar' }, opts)
     : '';
   const [from, to] = AVATAR_GRADIENTS[data.avatar.gradient];
   const founder = data.founder
@@ -345,10 +373,14 @@ function identity(data, opts) {
 /** The piece's image, else its company's banner, else the company's logo,
  *  else the app's grey band with a document glyph. Never an invented colour. */
 function band(project, company, opts, { eager = false, cls = 'band' } = {}) {
-  const url = project.image || (company && (company.banner || company.logo)) || '';
+  let url = '';
+  let slot = '';
+  if (project.image) [url, slot] = [project.image, `project-${project.key}`];
+  else if (company && company.banner) [url, slot] = [company.banner, `banner-${company.key}`];
+  else if (company && company.logo) [url, slot] = [company.logo, `logo-${company.key}`];
   const picture = url
     ? img(url, {
-      px: 1200, width: 604, height: 150, eager, srcsetPx: [640, 1080, 1200],
+      slot, px: 1200, width: 604, height: 150, eager, srcsetPx: [640, 1080, 1200],
       sizes: '(min-width: 640px) 604px, calc(100vw - 36px)',
     }, opts)
     : '';
@@ -408,7 +440,7 @@ function overview(data, opts) {
 
 function companyRow(company, opts) {
   const logo = `<span class="logo"><span class="logo-glyph" aria-hidden="true">${ICON.building}</span>` +
-    `${company.logo ? img(company.logo, { px: 96, width: 47, height: 47 }, opts) : ''}</span>`;
+    `${company.logo ? img(company.logo, { px: 96, width: 47, height: 47, slot: `logo-${company.key}` }, opts) : ''}</span>`;
   const verified = company.verifiedCount > 0
     ? `<span class="company-verified"><span class="seal-sm">${ICON.seal}</span>` +
       `${esc(COPY.verifiedProjects(company.verifiedCount))}</span>`
@@ -512,7 +544,7 @@ function miniRow(project, ctx, { withCompany }) {
 function companySheet(company, ctx) {
   const projects = ctx.data.projects.filter((p) => p.company === company.key);
   const logo = `<span class="logo"><span class="logo-glyph" aria-hidden="true">${ICON.building}</span>` +
-    `${company.logo ? img(company.logo, { px: 96, width: 47, height: 47 }, ctx.opts) : ''}</span>`;
+    `${company.logo ? img(company.logo, { px: 96, width: 47, height: 47, slot: `logo-${company.key}` }, ctx.opts) : ''}</span>`;
   return `<template id="sheet-company-${company.key}">` +
     `<div class="sheet-company">${logo}<div><h2 class="sheet-title" tabindex="-1">${esc(company.name)}</h2>` +
     `${company.caption ? `<p class="company-caption">${esc(company.caption)}</p>` : ''}</div></div>` +
@@ -613,8 +645,8 @@ const DEFAULT_OPTS = {
  * of a public portfolio. The payload's `collab` field is ignored.
  */
 export function renderPortfolioPage(raw, options = {}) {
-  const opts = { ...DEFAULT_OPTS, ...options };
   const data = normalizePortfolio(raw);
+  const opts = { ...DEFAULT_OPTS, ...options, handle: data.handle };
   const ctx = {
     data,
     opts,

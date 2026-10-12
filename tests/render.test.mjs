@@ -3,10 +3,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  canonicalHandle, fetchPortfolio, fixturePage, portfolioPage, readFixture, shareImage,
+  canonicalHandle, fetchPortfolio, fixturePage, portfolioImage, portfolioPage, readFixture, shareImage,
 } from '../portfolio/handler.js';
 import {
-  CONTENT_SECURITY_POLICY, describe, initials, isIndexable, monthLabel, normalizePortfolio,
+  CONTENT_SECURITY_POLICY, describe, imageVersion, initials, isIndexable, monthLabel, normalizePortfolio,
   renderErrorPage, renderPortfolioPage, renderUnavailablePage,
 } from '../portfolio/render.js';
 
@@ -287,4 +287,78 @@ test('the share image renders a 1200×630 PNG, and falls back when unavailable',
   assert.ok(missing.body.equals(fallback));
   const prod = await shareImage({ fixture: 'full', env, log: silent });
   assert.equal(prod.status, 404);
+});
+
+// ── Stored image URLs never reach the page ─────────────────────────────────
+
+const UID = 'UidAbCdEf0123456789xyzQRS';
+const PHOTO = `https://firebasestorage.googleapis.com/v0/b/x.app/o/profile_pictures%2F${UID}?alt=media&token=t1`;
+const LOGO = 'https://firebasestorage.googleapis.com/v0/b/x.app/o/profile_pictures%2Flogo_COMPANYID?alt=media';
+function withStoredImages() {
+  const data = fixture('full');
+  data.avatar.url = PHOTO;
+  data.companies[0].logo = LOGO;
+  data.companies[0].banner = null;
+  data.projects[0].image = null;
+  return data;
+}
+
+test('the page writes image slots, never stored image URLs', () => {
+  for (const optimizeImages of [true, false]) {
+    const html = render(withStoredImages(), { optimizeImages });
+    assert.ok(!html.includes('firebasestorage'), 'a storage host reached the page');
+    assert.ok(!html.includes(UID), 'the uid reached the page');
+    assert.ok(!html.includes('COMPANYID'));
+    const avatar = `/u/sarah/image/avatar/${imageVersion(PHOTO)}`;
+    assert.ok(html.includes(optimizeImages ? encodeURIComponent(avatar) : avatar));
+  }
+  // The featured band falls back to the company logo, by slot.
+  const html = render(withStoredImages(), { optimizeImages: false });
+  assert.ok(html.includes(`/u/sarah/image/logo-f1e2d3c4b5/${imageVersion(LOGO)}`));
+});
+
+function imageFetch({ type = 'image/jpeg', status = 200 } = {}) {
+  return fakeFetch((url) => {
+    if (url.includes('format=json')) return json(200, withStoredImages());
+    return new Response(Buffer.from('JPEGDATA'), { status, headers: { 'content-type': type } });
+  });
+}
+
+test('the image route serves only what the JSON names', async () => {
+  const fetchImpl = imageFetch();
+  const ok = await portfolioImage({ rawHandle: 'sarah', slot: 'avatar', version: imageVersion(PHOTO), env, fetchImpl, log: silent });
+  assert.equal(ok.status, 200);
+  assert.equal(ok.headers['Content-Type'], 'image/jpeg');
+  assert.equal(ok.body.toString(), 'JPEGDATA');
+  assert.match(ok.headers['Vercel-CDN-Cache-Control'], /s-maxage=3600/);
+  assert.equal(fetchImpl.calls[1].url, PHOTO, 'fetched the stored URL server-side');
+
+  const stale = await portfolioImage({ rawHandle: 'sarah', slot: 'avatar', version: 'aaaaaaaaaa', env, fetchImpl: imageFetch(), log: silent });
+  assert.equal(stale.status, 200);
+  assert.match(stale.headers['Vercel-CDN-Cache-Control'], /s-maxage=300/);
+
+  for (const [rawHandle, slot] of [
+    ['sarah', 'banner-f1e2d3c4b5'],      // no banner stored
+    ['sarah', 'logo-0000000000'],        // not one of this page's companies
+    ['sarah', '../etc'],                 // not a slot
+    ['Sarah', 'avatar'],                 // not canonical
+    ['bad handle', 'avatar'],
+  ]) {
+    const res = await portfolioImage({ rawHandle, slot, version: 'x', env, fetchImpl: imageFetch(), log: silent });
+    assert.equal(res.status, 404, `${rawHandle} ${slot}`);
+  }
+});
+
+test('the image route refuses non-images and passes failures on', async () => {
+  for (const type of ['image/svg+xml', 'text/html']) {
+    const res = await portfolioImage({ rawHandle: 'sarah', slot: 'avatar', version: 'x', env, fetchImpl: imageFetch({ type }), log: silent });
+    assert.equal(res.status, 404, type);
+  }
+  const gone = await portfolioImage({ rawHandle: 'sarah', slot: 'avatar', version: 'x', env,
+    fetchImpl: fakeFetch(() => json(404, { v: 1, status: 'unavailable' })), log: silent });
+  assert.equal(gone.status, 404);
+  const down = await portfolioImage({ rawHandle: 'sarah', slot: 'avatar', version: 'x', env,
+    fetchImpl: fakeFetch(() => json(503, { v: 1, status: 'error' })), log: silent });
+  assert.equal(down.status, 503);
+  assert.equal(down.headers['Cache-Control'], 'no-store');
 });

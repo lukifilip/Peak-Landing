@@ -1,37 +1,96 @@
 {
   "rewrites": [
-    { "source": "/u/:handle/og.png", "destination": "/api/portfolio-og?handle=:handle" },
-    { "source": "/u/:handle/", "destination": "/api/portfolio?handle=:handle&slash=1" },
-    { "source": "/u/:handle", "destination": "/api/portfolio?handle=:handle" },
-    { "source": "/preview/portfolio/:name/og.png", "destination": "/api/portfolio-og?fixture=:name" },
-    { "source": "/preview/portfolio/:name", "destination": "/api/preview-portfolio?name=:name" }
+    {
+      "source": "/u/:handle/og.png",
+      "destination": "/api/portfolio-og?handle=:handle"
+    },
+    {
+      "source": "/u/:handle/image/:slot/:v",
+      "destination": "/api/portfolio-image?handle=:handle&slot=:slot&v=:v"
+    },
+    {
+      "source": "/u/:handle/",
+      "destination": "/api/portfolio?handle=:handle&slash=1"
+    },
+    {
+      "source": "/u/:handle",
+      "destination": "/api/portfolio?handle=:handle"
+    },
+    {
+      "source": "/preview/portfolio/:name/og.png",
+      "destination": "/api/portfolio-og?fixture=:name"
+    },
+    {
+      "source": "/preview/portfolio/:name",
+      "destination": "/api/preview-portfolio?name=:name"
+    }
   ],
   "redirects": [
     {
       "source": "/get",
-      "has": [{ "type": "header", "key": "user-agent", "value": ".*(iPhone|iPad|iPod).*" }],
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(iPhone|iPad|iPod).*"
+        }
+      ],
       "destination": "https://apps.apple.com/app/id6758958604",
       "permanent": false
     },
     {
       "source": "/get",
-      "has": [{ "type": "header", "key": "user-agent", "value": ".*Android.*" }],
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*Android.*"
+        }
+      ],
       "destination": "https://play.google.com/store/apps/details?id=com.patchamp.peak",
       "permanent": false
     },
-    { "source": "/get", "destination": "/files/download.html", "permanent": false }
+    {
+      "source": "/get",
+      "destination": "/files/download.html",
+      "permanent": false
+    }
   ],
   "images": {
-    "sizes": [64, 96, 128, 160, 256, 384, 640, 750, 828, 1080, 1200, 1920],
-    "remotePatterns": [{ "protocol": "https", "hostname": "firebasestorage.googleapis.com" }],
+    "sizes": [
+      64,
+      96,
+      128,
+      160,
+      256,
+      384,
+      640,
+      750,
+      828,
+      1080,
+      1200,
+      1920
+    ],
     "minimumCacheTTL": 86400,
-    "formats": ["image/avif", "image/webp"]
+    "formats": [
+      "image/avif",
+      "image/webp"
+    ]
   },
   "functions": {
-    "api/portfolio.js": { "includeFiles": "portfolio/**", "maxDuration": 15 },
-    "api/preview-portfolio.js": { "includeFiles": "portfolio/**" },
+    "api/portfolio.js": {
+      "includeFiles": "portfolio/**",
+      "maxDuration": 15
+    },
+    "api/preview-portfolio.js": {
+      "includeFiles": "portfolio/**"
+    },
     "api/portfolio-og.js": {
       "includeFiles": "{portfolio/**,assets/portfolio/**,assets/levels/**,assets/skill_icons/**,assets/app_icon.png}",
+      "maxDuration": 15
+    },
+    "api/portfolio-image.js": {
+      "includeFiles": "portfolio/**",
       "maxDuration": 15
     }
   }
