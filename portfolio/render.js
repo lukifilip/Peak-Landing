@@ -526,16 +526,18 @@ function closingCard(state, opts) {
 
 /**
  * On a computer, a QR code to /get puts the app on the visitor's phone. Shown
- * only on wide screens with a mouse or trackpad (styles.css), in place of the
- * tagline. Hidden from screen readers: the Get Peak link above already does
- * the same, and stays the page's one button. The code is a static file
- * (scripts/make-qr.mjs), loaded lazily so phones never fetch it.
+ * only on wide screens with a mouse or trackpad (styles.css), where it
+ * replaces the Get Peak button and the tagline: a button that opens a phone
+ * app's store page is little use on a computer. The code is itself the link
+ * to /get, so a click, the keyboard and screen readers still reach the store;
+ * at every other width it is not displayed, and the button is. The code is a
+ * static file (scripts/make-qr.mjs), loaded lazily so phones never fetch it.
  */
 function handOff(opts) {
-  return `<p class="qr" aria-hidden="true">` +
+  return `<a class="qr" href="/get" aria-label="${esc(COPY.getPeak)}">` +
     `<img class="qr-code" src="${esc(`${opts.assetBase}/assets/portfolio/get-qr.svg`)}" alt="" ` +
-    'width="96" height="96" loading="lazy" decoding="async">' +
-    `<span class="qr-text">${esc(COPY.qrCaption)}</span></p>`;
+    'width="112" height="112" loading="lazy" decoding="async">' +
+    `<span class="qr-text">${esc(COPY.qrCaption)}</span></a>`;
 }
 
 // ── Sheets (drill-ins), as templates the page script opens ──────────────────

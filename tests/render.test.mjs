@@ -192,13 +192,17 @@ test('a company logo standing in for a picture is marked, a banner or image neve
   assert.ok(!full.includes('band-logo'), 'the full fixture has a project image and a banner');
 });
 
-test('the QR hand-off: once, in the closing card, hidden from screen readers, lazy', () => {
+test('the QR hand-off: once, in the closing card, itself a link to /get, lazy', () => {
   for (const name of ['full', 'empty']) {
     const html = bodyOf(render(fixture(name)));
-    const qrs = html.match(/<p class="qr"[\s\S]*?<\/p>/g) || [];
+    const qrs = html.match(/<a class="qr"[\s\S]*?<\/a>/g) || [];
     assert.equal(qrs.length, 1, name);
-    assert.match(qrs[0], /aria-hidden="true"/);
+    // On computers it replaces the Get Peak button, so it carries the same
+    // destination and name for the keyboard and screen readers.
+    assert.match(qrs[0], /^<a class="qr" href="\/get" aria-label="Get Peak">/);
+    assert.ok(html.includes('<a class="btn-primary press-btn" href="/get">Get Peak</a>'), 'phones keep the button');
     assert.match(qrs[0], /src="\/assets\/portfolio\/get-qr\.svg"[^>]*loading="lazy"/);
+    assert.match(qrs[0], /Scan this with your iPhone to get Peak/);
     assert.ok(html.indexOf('class="qr"') > html.indexOf('id="closing-title"'), `${name}: outside the closing card`);
   }
   for (const page of [renderUnavailablePage(), renderErrorPage('sarah')]) {

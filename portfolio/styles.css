@@ -911,24 +911,22 @@ html:has(dialog[open]) { overflow: hidden; }
 }
 
 /* Peak is a phone app: on a computer, a QR code to /get takes the place of
-   the tagline. Black on white in both modes, so every camera reads it. */
+   the Get Peak button and the tagline, centred like the text above it.
+   Black on white in both modes, so every camera reads it. */
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .closing .btn-primary,
   .closing .tagline { display: none; }
   .qr {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 14px;
-    margin-top: 18px;
+    gap: 10px;
+    width: fit-content;
+    margin: 20px auto 0;
+    border-radius: 14px;
   }
-  .qr-code { flex: none; width: 96px; height: 96px; border-radius: 12px; }
-  .qr-text {
-    max-width: 10em;
-    text-align: start;
-    font-size: 0.8125rem;
-    line-height: 1.35;
-    color: var(--text-2);
-  }
+  .qr-code { width: 112px; height: 112px; border-radius: 12px; }
+  .qr-text { font-size: 0.8125rem; color: var(--text-2); }
 }
 
 /* ── Images and motion ──────────────────────────────────────────────────── */
