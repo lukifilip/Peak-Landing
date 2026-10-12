@@ -1,0 +1,91 @@
+{
+  "v": 1,
+  "handle": "sarah",
+  "state": "full",
+  "name": "Sarah Lindqvist",
+  "headline": "Professional Copywriter",
+  "avatar": { "url": "/assets/portfolio/fixtures/avatar.png", "gradient": 2 },
+  "founder": true,
+  "collab": {
+    "note": "Looking for a digital marketer who is an expert at social media marketing, for a launch this spring.",
+    "skills": [{ "id": "5", "name": "Digital Marketing", "icon": "digital_marketing", "color": "#FD9B48" }]
+  },
+  "featured": ["a1b2c3d4e5", "b2c3d4e5f6", "c3d4e5f6a7"],
+  "projects": [
+    {
+      "key": "a1b2c3d4e5",
+      "title": "Website SEO Optimization",
+      "description": "The website needs Google search engine optimization so that small businesses in Ghent can find LiveLit when they search for event lighting. Audit the current pages, fix the technical issues, rewrite the titles and descriptions of the ten most visited pages, and set up Search Console so the team can follow the results.\n\nDeliver a short report the team can act on without help.",
+      "note": "I audited 42 pages, fixed the sitemap and canonical tags, and rewrote the copy of the top ten pages. Organic visits rose 38% in the first month.",
+      "image": "/assets/portfolio/fixtures/seo-project.png",
+      "company": "f1e2d3c4b5",
+      "month": "2026-03",
+      "deliverables": [
+        { "title": "SEO audit", "url": "https://docs.example.com/livelit-seo-audit" },
+        { "title": "Search Console report, March", "url": "https://docs.example.com/livelit-search-console" }
+      ]
+    },
+    {
+      "key": "b2c3d4e5f6",
+      "title": "Spring Launch Email Sequence",
+      "description": "Write a five-email sequence for the spring collection launch.",
+      "note": "",
+      "image": null,
+      "company": "f1e2d3c4b5",
+      "month": "2026-02",
+      "deliverables": []
+    },
+    {
+      "key": "c3d4e5f6a7",
+      "title": "Product Page Copy",
+      "description": "Rewrite the copy for the twelve best-selling product pages.",
+      "note": "Rewrote all twelve pages in the brand's new voice; conversion went from 1.9% to 2.6%.",
+      "image": null,
+      "company": "f1e2d3c4b5",
+      "month": "2026-01",
+      "deliverables": []
+    },
+    {
+      "key": "d4e5f6a7b8",
+      "title": "About Page Story",
+      "description": "Tell the founders' story on the About page in under 300 words.",
+      "note": "",
+      "image": null,
+      "company": "f1e2d3c4b5",
+      "month": "2025-12",
+      "deliverables": []
+    }
+  ],
+  "companies": [
+    {
+      "key": "f1e2d3c4b5",
+      "name": "LiveLit",
+      "logo": "/assets/portfolio/fixtures/livelit-logo.png",
+      "banner": "/assets/portfolio/fixtures/livelit-banner.png",
+      "caption": "Employee since 2026",
+      "current": true,
+      "verifiedCount": 4
+    },
+    {
+      "key": "e2d3c4b5a6",
+      "name": "Northwind",
+      "logo": "/assets/portfolio/fixtures/northwind-logo.png",
+      "banner": null,
+      "caption": "Officer 2024–2026",
+      "current": false,
+      "verifiedCount": 0
+    }
+  ],
+  "skills": {
+    "title": "Expertise",
+    "items": [
+      { "id": "10", "name": "Copywriting", "icon": "copywriting", "color": "#6512B8", "level": 4, "standing": "Certified Expert" },
+      { "id": "15", "name": "Content Marketing", "icon": "content_marketing", "color": "#FD8D8D", "level": 3, "standing": "Certified Advanced" },
+      { "id": "2", "name": "SEO", "icon": "seo", "color": "#40B6F7", "level": 2, "standing": "Certified Intermediate" },
+      { "id": "22", "name": "Email Marketing", "icon": "email_marketing", "color": "#44A2FB", "level": 1, "standing": "Certified Beginner" },
+      { "id": "4", "name": "Prompt Engineering", "icon": "prompt_engineering", "color": "#BC79E8", "level": 0, "standing": "Certified Novice" }
+    ]
+  },
+  "lead": "10",
+  "verifiedCount": 4
+}

@@ -1,0 +1,30 @@
+{
+  "v": 1,
+  "handle": "lukass",
+  "state": "sparse",
+  "name": "Lukass",
+  "headline": "Learning AI for Productivity",
+  "avatar": { "url": null, "gradient": 3 },
+  "founder": false,
+  "collab": {
+    "note": "Happy to help with spreadsheets and quick automations.",
+    "skills": [
+      { "id": "14", "name": "Excel & Spreadsheets", "icon": "excel_spreadsheets", "color": "#4ADD63" },
+      { "id": "4", "name": "Prompt Engineering", "icon": "prompt_engineering", "color": "#BC79E8" }
+    ]
+  },
+  "featured": [],
+  "projects": [],
+  "companies": [
+    { "key": "bb22cc33dd", "name": "Peak Labs", "logo": "/assets/app_icon.png", "banner": null, "caption": "Officer since 2025", "current": true, "verifiedCount": 0 }
+  ],
+  "skills": {
+    "title": "Learning",
+    "items": [
+      { "id": "7", "name": "AI for Productivity", "icon": "ai_productivity", "color": "#3FB0F6", "level": null, "standing": "Learning" },
+      { "id": "2", "name": "SEO", "icon": "seo", "color": "#40B6F7", "level": null, "standing": "Learning" }
+    ]
+  },
+  "lead": null,
+  "verifiedCount": 0
+}

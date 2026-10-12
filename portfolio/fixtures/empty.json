@@ -1,0 +1,16 @@
+{
+  "v": 1,
+  "handle": "newbie",
+  "state": "empty",
+  "name": "Mia",
+  "headline": "Building a verified portfolio",
+  "avatar": { "url": null, "gradient": 0 },
+  "founder": false,
+  "collab": null,
+  "featured": [],
+  "projects": [],
+  "companies": [],
+  "skills": null,
+  "lead": null,
+  "verifiedCount": 0
+}

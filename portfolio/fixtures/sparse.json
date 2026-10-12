@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "handle": "kait",
+  "state": "sparse",
+  "name": "Kait Verhoeven",
+  "headline": "Building a verified portfolio",
+  "avatar": { "url": null, "gradient": 1 },
+  "founder": false,
+  "collab": null,
+  "featured": [],
+  "projects": [],
+  "companies": [
+    { "key": "aa11bb22cc", "name": "Brightside Studio", "logo": null, "banner": null, "caption": "Employee since 2026", "current": true, "verifiedCount": 0 }
+  ],
+  "skills": null,
+  "lead": null,
+  "verifiedCount": 0
+}

@@ -1,0 +1,53 @@
+{
+  "v": 1,
+  "handle": "edge.case_01",
+  "state": "full",
+  "name": "Maximiliana Alexandrina Wolfeschlegelsteinhausen-Bergerdorff <script>alert('name')</script>",
+  "headline": "Helping \"small\" & <b>independent</b> shops sell online 🚀 — copy, SEO and email that sound like you, not like a template ok",
+  "avatar": { "url": "javascript:alert('avatar')", "gradient": 7 },
+  "founder": false,
+  "collab": { "note": "", "skills": [] },
+  "featured": ["0a0b0c0d0e", "1a1b1c1d1e", "ffffffffff"],
+  "projects": [
+    {
+      "key": "0a0b0c0d0e",
+      "title": "<img src=x onerror=alert('title')> Newsletter relaunch for a shop with a very long project title that cannot fit",
+      "description": "Plain text with <tags>, \"quotes\", 'apostrophes' & ampersands. 🚀",
+      "note": "",
+      "image": "javascript:alert('image')",
+      "company": "9a9b9c9d9e",
+      "month": "2026-13",
+      "deliverables": [
+        { "title": "<b>Bold</b> deliverable", "url": "javascript:alert('deliverable')" },
+        { "title": "", "url": "https://example.com/real?a=1&b=2" },
+        { "title": "Quote in URL", "url": "https://example.com/x?q=\"bad\"" }
+      ]
+    },
+    {
+      "key": "1a1b1c1d1e",
+      "title": "Shop photography brief",
+      "description": "",
+      "note": "",
+      "image": null,
+      "company": null,
+      "month": "2025-07",
+      "deliverables": []
+    }
+  ],
+  "companies": [
+    { "key": "9a9b9c9d9e", "name": "Atelier Noord Antwerpen Coöperatieve Vennootschap met Beperkte Aansprakelijkheid", "logo": null, "banner": null, "caption": "Employee since 2025", "current": true, "verifiedCount": 1 },
+    { "key": "NOT-A-KEY", "name": "Dropped: invalid key", "logo": null, "banner": null, "caption": "", "current": true, "verifiedCount": 0 }
+  ],
+  "skills": {
+    "title": "Expertise",
+    "items": [
+      { "id": "13", "name": "Data Analysis", "icon": "chart.xyaxis.line", "color": "#32CFF3", "level": 2, "standing": "Certified Intermediate" },
+      { "id": "999", "name": "Brand New Skill Not In The Catalog", "icon": null, "color": "#9145C0", "level": 1, "standing": "Certified Beginner" },
+      { "id": "998", "name": "No Colour Either", "icon": null, "color": "red; background:url(x)", "level": 0, "standing": "Certified Novice" }
+    ]
+  },
+  "lead": "13",
+  "verifiedCount": 0,
+  "uid": "SHOULD-NEVER-RENDER",
+  "email": "should-never-render@example.com"
+}
